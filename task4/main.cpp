@@ -86,16 +86,16 @@ public:
     CAccount(const CAccount & other) {
         currentBalance = other.currentBalance;
         initialBalance = other.initialBalance;
-        ID = other.ID;
         transactions_used = other.transactions_used;
+
+        ID = new char[std::strlen(other.ID) + 1];
+        std::strcpy(ID, other.ID);
 
         transactions = new CTransaction * [transactions_alloc = other.transactions_alloc];
 
-        for (size_t i = 0; i < transactions_used; i++){
+        for (size_t i = 0; i < transactions_used; i++)
             transactions[i] = new CTransaction(*other.transactions[i]);
-            // TODO test that each member of transaction[i] hold their own value with unique address
 
-        }
     }
 
     /* Initialization Constructor*/
@@ -106,14 +106,16 @@ public:
         this->ID = new char[std::strlen(ID) + 1];
         std::strcpy(this->ID, ID);
 
-        this->initialBalance = balance;
-        this->currentBalance = balance;
+        initialBalance = balance;
+        currentBalance = balance;
     }
 
     ~CAccount(){
         for (size_t i = 0; i < transactions_used; i++)
             delete transactions[i];  // delete structures pointed to by array
         delete [] transactions; // delete array of pointers
+
+        delete [] ID;
     }
 
     int Balance() { return currentBalance; }
@@ -157,7 +159,6 @@ public:
     }
 
     char * ID;
-
     int currentBalance = 0;
     int initialBalance = 0;
 
@@ -195,6 +196,14 @@ public:
     }
 
     CBank & operator= (const CBank & other){
+
+        for (size_t i = 0; i < accounts_used; i++)
+            delete accounts[i];  // delete structures pointed to by array
+        delete [] accounts; // delete array of pointers
+
+        accounts_allocated = 0;
+        accounts_used = 0;
+
         if (this != &other){
             accounts_used = other.accounts_used;
             accounts = new CAccount * [accounts_allocated = other.accounts_allocated];
