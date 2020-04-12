@@ -130,10 +130,6 @@ public:
         : m_timeStamp(ref.m_timeStamp), m_from(ref.m_from), m_body(ref.m_body), m_attach(ref.m_attach)
         { if (m_attach != nullptr) m_attach->AddRef(); }
 
-    CMail(const CMail && ref) noexcept
-        : m_timeStamp(ref.m_timeStamp), m_from(ref.m_from), m_body(ref.m_body), m_attach(ref.m_attach)
-        { if (m_attach != nullptr) m_attach->AddRef(); }
-
     ~CMail(){ if (m_attach != nullptr) m_attach->Release(); }
 
     const string     &From()       const { return m_from; }
@@ -144,7 +140,23 @@ public:
 
     const CAttach    *Attachment() const { return m_attach; }
 
-    bool operator<(const CMail & other){ return m_timeStamp.Compare(other.m_timeStamp); };
+    bool operator<(const CMail & other){ return m_timeStamp.Compare(other.m_timeStamp) < 0; };
+    bool operator<(const CTimeStamp & stamp){ return m_timeStamp.Compare(stamp) < 0; };
+
+    struct Comparator
+    {
+        inline bool operator() (const CMail & a, const CMail & b) const {
+            return a.TimeStamp().Compare(b.TimeStamp()) < 0;
+        }
+
+        inline bool operator() (const CMail & mail, const CTimeStamp & stamp) const {
+            return mail.TimeStamp().Compare(stamp) < 0;
+        }
+
+        inline bool operator() (const CTimeStamp & stamp, const CMail & mail) const {
+            return stamp.Compare(mail.TimeStamp()) < 0;
+        }
+    };
 
 
     friend ostream &operator<<(ostream &os, const CMail &x){
@@ -153,9 +165,9 @@ public:
         return os;
     }
 
-private:
-
     CTimeStamp m_timeStamp;
+
+private:
     string m_from;
     CMailBody m_body;
     const CAttach * m_attach;
@@ -165,11 +177,11 @@ private:
 class CMailBox {
 public:
     CMailBox(){
-        m_folders["inbox"]; // inserts default folder "inbox"
+        m_inbox = &m_folders["inbox"]; // inserts default folder "inbox"
     }
 
     bool Delivery(const CMail &mail) {
-        m_folders["inbox"].push_back(mail);
+        m_inbox->insert(mail);
         return true;
     }
 
@@ -184,47 +196,38 @@ public:
     }
 
 
-    bool MoveMail(const string &fromFolder,
-                  const string &toFolder){
+    bool MoveMail(const string &fromFolder, const string &toFolder){
+    // TODO optimizations
 
-        auto from_folder_ref = m_folders.find(fromFolder);
-        auto to_folder_ref = m_folders.find(toFolder);
+        auto fromFolderRef = m_folders.find(fromFolder);
+        auto toFolderRef = m_folders.find(toFolder);
 
-        if (from_folder_ref == m_folders.end() || to_folder_ref == m_folders.end())
+        if (fromFolderRef == m_folders.end() || toFolderRef == m_folders.end())
             return false;
 
-        to_folder_ref->second.insert(
-            to_folder_ref->second.end(),
-            from_folder_ref->second.begin(),
-            from_folder_ref->second.end()
-            );
-
-        from_folder_ref->second.clear();
+        toFolderRef->second.insert(fromFolderRef->second.begin(), fromFolderRef->second.end());
+        fromFolderRef->second.clear();
 
         return true;
     }
 
     list <CMail> ListMail(const string &folderName, const CTimeStamp &from, const CTimeStamp &to) const{
-        auto search = m_folders.find(folderName);
-        if (search == m_folders.end())
-            return list <CMail> ();
 
-        list <CMail> mails;
+        auto folderIter = m_folders.find(folderName);
 
-        for (const CMail & mail: search->second)
-            if(from.Compare(mail.TimeStamp()) <= 0 && mail.TimeStamp().Compare(to) <= 0 )
-                mails.push_back(mail);
+        if (folderIter == m_folders.end()) return list <CMail> ();  // folder does not exist
 
-        mails.sort( [](const CMail & a, const CMail & b) { return a.TimeStamp().Compare(b.TimeStamp()) <= 0; } );
+        auto start = lower_bound(folderIter->second.begin(), folderIter->second.end(), from, cmp);
+        auto stop = upper_bound(folderIter->second.begin(), folderIter->second.end(), to, cmp);
 
-        return mails;
+        return list <CMail> (start, stop);
     }
 
     set <string> ListAddr(const CTimeStamp &from, const CTimeStamp &to) const{
-
+    // TODO optimizations
         set < string > users;
 
-        for (const pair < string, list<CMail> > folder: m_folders)
+        for (const auto& folder: m_folders)
             for (const CMail & mail: folder.second)
                 if(from.Compare(mail.TimeStamp()) <= 0 && mail.TimeStamp().Compare(to) <= 0 )
                     users.insert(mail.From());
@@ -232,11 +235,12 @@ public:
         return users;
     }
 
-    map < string, list<CMail> > m_folders;
+    map < string, set<CMail, CMail::Comparator> > m_folders;
+    set <CMail, CMail::Comparator> * m_inbox;
 
+    CMail::Comparator cmp;
 
 private:
-    // todo
 };
 //=================================================================================================
 #ifndef __PROGTEST__
@@ -255,46 +259,11 @@ static string showUsers(const set <string> &users) {
     return oss.str();
 }
 
-int main() {
-    CAttach *ca;
-
-    CMailBox mtest;
-
-    list <CTimeStamp> tst;
-    tst.push_back(CTimeStamp(1998, 3, 31, 15, 24, 13));
-    tst.push_back(CTimeStamp(1998, 2, 31, 15, 24, 13));
-    tst.push_back(CTimeStamp(1998, 1, 31, 15, 24, 13));
-    tst.push_back(CTimeStamp(1998, 3, 1, 15, 24, 13));
-    tst.push_back(CTimeStamp(1998, 3, 21, 15, 24, 13));
-
-    tst.sort( [](const CTimeStamp & a, const CTimeStamp & b) { return a.Compare(b) == -1; } );
-
-    //for ( const auto & l: tst)
-    //    cout <<  l << endl;
-
-
-    assert(mtest.Delivery(CMail(CTimeStamp(1998, 3, 31, 15, 24, 13), "user1@fit.cvut.cz", CMailBody(14, "mail content 1"), nullptr)));
-    assert(mtest.Delivery(CMail(CTimeStamp(2014, 3, 31, 15, 24, 13), "user1@fit.cvut.cz", CMailBody(14, "mail content 1"), nullptr)));
-    assert(mtest.Delivery(CMail(CTimeStamp(2014, 3, 31, 15, 24, 13), "user1@fit.cvut.cz", CMailBody(14, "mail content 1"), nullptr)));
-    ca = new CAttach(200);
-    assert(mtest.Delivery(CMail(CTimeStamp(2014, 3, 31, 15, 24, 13), "user1@fit.cvut.cz", CMailBody(14, "mail content 1"), ca)));
-    assert(mtest.Delivery(CMail(CTimeStamp(2014, 3, 31, 15, 24, 13), "user1@fit.cvut.cz", CMailBody(14, "mail content 2"), ca)));
-    ca->Release();
-    assert(mtest.Delivery(CMail(CTimeStamp(2014, 3, 31, 15, 24, 13), "user1@fit.cvut.cz", CMailBody(14, "mail content 1"), nullptr)));
-
-    // cout << showMail(mtest.ListMail("inbox", CTimeStamp(2000, 1, 1, 0, 0, 0), CTimeStamp(2050, 12, 31, 23, 59, 59)));
-
-    assert(!mtest.MoveMail("inbox", "work"));
-    assert(mtest.NewFolder("work"));
-    assert(mtest.MoveMail("inbox", "work"));
-    // cout << showMail(mtest.ListMail("inbox", CTimeStamp(2000, 1, 1, 0, 0, 0),CTimeStamp(2050, 12, 31, 23, 59, 59)));
-    // cout << showMail(mtest.ListMail("work", CTimeStamp(2000, 1, 1, 0, 0, 0), CTimeStamp(2050, 12, 31, 23, 59, 59)));
-    //exit(0);
+int VagnersTests() {
 
     list <CMail> mailList;
     set <string> users;
     CAttach *att;
-
 
     CMailBox m0;
     assert(m0.Delivery(CMail(CTimeStamp(2014, 3, 31, 15, 24, 13), "user1@fit.cvut.cz", CMailBody(14, "mail content 1"), nullptr)));
@@ -364,11 +333,11 @@ int main() {
            "2014-03-31 18:52:27 user1@fit.cvut.cz mail body: 14 B + attachment: 468 B\n");
     assert(showMail(m1.ListMail("work",
                                 CTimeStamp(2000, 1, 1, 0, 0, 0),
-                                CTimeStamp(2050, 12, 31, 23, 59, 59))) == "");
+                                CTimeStamp(2050, 12, 31, 23, 59, 59))).empty());
     assert(m1.MoveMail("inbox", "work"));
     assert(showMail(m1.ListMail("inbox",
                                 CTimeStamp(2000, 1, 1, 0, 0, 0),
-                                CTimeStamp(2050, 12, 31, 23, 59, 59))) == "");
+                                CTimeStamp(2050, 12, 31, 23, 59, 59))).empty());
     assert(showMail(m1.ListMail("work",
                                 CTimeStamp(2000, 1, 1, 0, 0, 0),
                                 CTimeStamp(2050, 12, 31, 23, 59, 59))) ==
@@ -399,7 +368,7 @@ int main() {
     assert(m1.MoveMail("inbox", "work"));
     assert(showMail(m1.ListMail("inbox",
                                 CTimeStamp(2000, 1, 1, 0, 0, 0),
-                                CTimeStamp(2050, 12, 31, 23, 59, 59))) == "");
+                                CTimeStamp(2050, 12, 31, 23, 59, 59))).empty());
     assert(showMail(m1.ListMail("work",
                                 CTimeStamp(2000, 1, 1, 0, 0, 0),
                                 CTimeStamp(2050, 12, 31, 23, 59, 59))) ==
@@ -412,6 +381,52 @@ int main() {
            "2014-03-31 19:24:13 user2@fit.cvut.cz mail body: 14 B\n");
 
     return 0;
+
 }
 
+int main () {
+
+    VagnersTests();
+    cout << "Mr.Vagner's tests OK" << endl;
+
+    CMailBox mailBox;
+
+    const int create = 1000000;
+    const int list =   10000;
+
+
+    cout << "Creating " << create << " mails in inbox" << endl;
+    for (size_t i = 0; i < create; i++) {
+        cout << "\r" << i;
+        assert(mailBox.Delivery(CMail(CTimeStamp(i % 2500, 3, i % 30, 15, 24, 13), "user1@fit.cvut.cz", CMailBody(14, "mail content 1"), nullptr)));
+        // mailBox.ListMail("work", CTimeStamp(2000, 1, 1, 0, 0, 0), CTimeStamp(2050, 12, 31, 23, 59, 59));
+    }
+    cout << " Mails created" << endl;
+
+
+    cout << "Listing them " << list << " times" << endl;
+    for (size_t i = 0; i < list; i++) {
+        cout << "\r" << i;
+        mailBox.ListMail("inbox", CTimeStamp(2000, 1, 1, 0, 0, 0), CTimeStamp(2050, 12, 31, 23, 59, 59));
+    }
+
+    cout << mailBox.ListMail("inbox", CTimeStamp(2000, 1, 1, 0, 0, 0), CTimeStamp(2050, 12, 31, 23, 59, 59)).size() << endl;
+
+    cout << "inbox count: " << mailBox.m_folders["inbox"].size() << endl;
+
+    cout << " Listing done" << endl;
+    // cout << showMail(mailBox.ListMail("inbox", CTimeStamp(2000, 1, 1, 0, 0, 0), CTimeStamp(2050, 12, 31, 23, 59, 59)));
+
+    /*cout << "Moving them back and forth" << endl;
+    for (size_t i = 0; i < limit; i++) {
+        cout << "\r" << i;
+        mailBox.MoveMail("inbox", "spam");
+        mailBox.MoveMail("spam","inbox");
+//        mailBox.ListMail("work", CTimeStamp(2000, 1, 1, 0, 0, 0), CTimeStamp(2050, 12, 31, 23, 59, 59));
+    }
+
+    cout << " Moving done" << endl;
+*/
+
+}
 #endif /* __PROGTEST__ */
