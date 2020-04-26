@@ -25,11 +25,15 @@ using namespace std;
 #endif /* __PROGTEST__ */
 
 class CTable;
+
 class CCell;
+
 class CEmpty;
+
 class CTextContentCell;
 
 class CText;
+
 class CImage;
 
 /* ====================================================== */
@@ -104,7 +108,7 @@ public:
      * @param h the required height of cell
      * this dummy class always print space depending on the cell width
      * */
-    inline virtual void print(ostream &os, size_t row, size_t w, size_t h){ os << string(w, ' '); }
+    inline virtual void print(ostream &os, size_t row, size_t w, size_t h) { os << string(w, ' '); }
 
     /* @return width needed to render this cell */
     virtual size_t GetWidth() const { return 0; }
@@ -160,7 +164,6 @@ public:
     size_t GetHeight() const override { return content.size(); }
 
 
-
 protected:
     vector<string> content;
     std::size_t width = 0; // height is stored inside content.size()
@@ -169,7 +172,7 @@ protected:
 
 };
 
-class CText : virtual public CTextContentCell{
+class CText : virtual public CTextContentCell {
 public:
 
     CText(const string &text, Align alignment);
@@ -239,7 +242,7 @@ CTable::~CTable() {
             delete cell;
 }
 
-CCell & CTable::GetCell(int row, int col)  {
+CCell &CTable::GetCell(int row, int col) {
     CCell &tmp = *body.at(row).at(col);
     return tmp;
 }
@@ -350,13 +353,25 @@ CText::CText(const string &text, CTextContentCell::Align alignment) {
 }
 
 void CText::SetText(const string &text) {
+    /* parse string byte by byte, because we want to detect last newline */
+    /* https://www.youtube.com/watch?v=BnR8eKsqWzA */
     content.clear();
-    string tmp;
+    width = 0;
+
     stringstream ss(text);
-    while (getline(ss, tmp, '\n')) {
-        content.push_back(tmp);
-        width = max(tmp.size(), width);
+    size_t ptr = 0;
+    content.emplace_back("");
+    char c;
+    while ((c = ss.get()) != -1) {
+        if (c == '\n') {
+            content.emplace_back("");
+            width = max(content[ptr].size(), width);
+            ptr++;
+        } else
+            content[ptr] += c;
     }
+    width = max(content.back().size(), width); // test the last one if the string didn't end with newline
+
 }
 
 
