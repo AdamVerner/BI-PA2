@@ -10,6 +10,7 @@
 #include <ostream>
 #include <bits/unique_ptr.h>
 
+
 typedef std::vector<std::vector<uint8_t>> imgData_t;
 typedef std::vector<uint8_t> imgDataRow_t;
 
@@ -18,7 +19,7 @@ typedef std::vector<uint8_t> imgDataRow_t;
 
 class CFilter;
 
-extern const char ASCIITranslation [256]; /**< LUT for raw to ASCII translation */
+extern const char ASCIITranslation [257]; /**< LUT for raw to ASCII translation */
 
 enum CImageType{ JPG, PNG, ASCII, AUTO };
 
@@ -71,13 +72,14 @@ public:
 class CImage_PNG: public CImage{
 public:
 
-    explicit CImage_PNG(const std::string &){}
+    explicit CImage_PNG(const std::string &);
+
 };
 
 
 class CImage_JPG: public CImage{
 public:
-    explicit CImage_JPG(const std::string &){}
+    explicit CImage_JPG(const std::string &);
 
 
 };

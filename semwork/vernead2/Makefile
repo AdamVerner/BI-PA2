@@ -1,7 +1,7 @@
 #Zde bude funkcni Makefile.
 SHELL = /bin/bash
 CXX = g++ -c
-LD = g++
+LD = g++  -ljpeg
 CXX_FLAGS = -Wall -pedantic -Wno-long-long -O2 -Werror --coverage
 # LD_FLAGS = -ljpg -lpng
 

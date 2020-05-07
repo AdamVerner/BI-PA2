@@ -28,6 +28,10 @@ Program bude mít jednoduché možnosti přehrávání animace (zastavit, spusti
 ```
 
 ## Specifikace
-nástroj bude určet k terminálovému použití.
+nástroj bude určen k terminálovému použití. Všechny operace budou probíhat pouze v černobílém spektru
+Ovládat se bude standartními *nixovými switchy `-h --help` apod.
+
+
+
 
 

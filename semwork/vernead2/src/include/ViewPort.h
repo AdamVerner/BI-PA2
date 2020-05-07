@@ -43,6 +43,12 @@ private:
 };
 
 
+/**
+ * ANSI Terminal viewport.
+ * ANSI control sequences from: http://www.termsys.demon.co.uk/vtansi.htm
+ *
+ *
+ * */
 class ViewPort_ANSI: public ViewPort_Terminal{
 public:
     void displayImage(const CImage &) override;
