@@ -28,10 +28,13 @@ Program bude mít jednoduché možnosti přehrávání animace (zastavit, spusti
 ```
 
 ## Specifikace
-nástroj bude určen k terminálovému použití. Všechny operace budou probíhat pouze v černobílém spektru
-Ovládat se bude standartními *nixovými switchy `-h --help` apod.
+Nástroj je určen k terminálovému použití. Program v aktuální verzi bude operovat v grayscale spektru. 
 
-
-
-
-
+### Interface
+Program bude operovat ve dvou módech. Interaktivním a CMD móodu.
+Interaktivní mód postupně provede uživatele jednotlivými operacemi editace obrázků/sekvencí
+CMD mód umožní zadat všechny opžadované operace pomocí *nixových switchů, umožňující jednoduché operace nad větším množstvím dat.
+například:
+```
+$ ./vernead2 -i test.png -s480x600 -o new.jpeg
+```
