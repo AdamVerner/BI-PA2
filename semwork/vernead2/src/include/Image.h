@@ -10,12 +10,9 @@
 #include <ostream>
 #include <bits/unique_ptr.h>
 
-
-typedef std::vector<std::vector<uint8_t>> imgData_t;
-typedef std::vector<uint8_t> imgDataRow_t;
-
 #include "Filter.h"
 #include "Scaler.h"
+#include "dataTypes.h"
 
 class CFilter;
 
@@ -43,21 +40,23 @@ public:
      * @param h requested height
      * @see CScaler
      */
-    void scale(const CScaler & scaler, size_t w, size_t h);
+    void scale(const CScaler & scaler);
     imgDataRow_t getRow(size_t) const;
-    size_t getHeight() const;
-
+    inline size_t getHeight() const { return mHeight; }
+    inline size_t getWidth() const { return mWidth; }
 
     friend std::ostream &operator<<(std::ostream &, const CImage &);
 
-    const char * LUT = ASCIITranslation;
+    uint8_t LUTLookup(size_t idx) const{ return LUT[idx]; }
 
 protected:
     std::string mName;   /**< original image filename. Can be None */
     imgData_t mData;     /**< images RAW data */
-    size_t mWidth = 0;   /**< image width */
 
+    size_t mWidth = 0;   /**< image width */
     size_t mHeight = 0;  /**< image height */
+
+    const char * LUT = ASCIITranslation; /**< lookup table for raw to ascii translation */
 
     size_t reverseLUTLookup(char) const;
 

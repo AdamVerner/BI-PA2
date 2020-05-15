@@ -5,7 +5,6 @@
 #include <sys/ioctl.h>
 #include <iostream>
 #include <thread>
-// #include <unistd.h>
 
 #include "ViewPort.h"
 
@@ -13,7 +12,7 @@ void ViewPort_Terminal::displayImage(const class CImage & img ) {
 
     for (size_t y = 0; y < img.getHeight(); y++){
         for(const auto & x: img.getRow(y))
-            output << img.LUT[x] << " ";
+            output << img.LUTLookup(x) << " "; // TODO instead of printing space, rescale image by ~60%
         output << std::endl;
     }
 

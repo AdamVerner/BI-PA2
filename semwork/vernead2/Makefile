@@ -2,47 +2,49 @@
 SHELL = /bin/bash
 CXX = g++ -c
 LD = g++  -ljpeg
-CXX_FLAGS = -Wall -pedantic -Wno-long-long -O2 -Werror --coverage
+CXX_FLAGS = -Wall -pedantic -Wno-long-long -O2 -Werror --coverage -std=c++11
 # LD_FLAGS = -ljpg -lpng
 
 
-all: vernead2
+default_target: all
 
 
-vernead2: src/cmd.o
-	$(LD) $(LD_FLAGS) -o $@ $^
-
-
-clean:
-	rm -f vernead2 src/*.o
-	rm -rf doc/*
-
-doc:
-	doxygen Doxyfile
-
-# compile any file
+# compile any cpp file
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $<
-
-
-
-# linked: src.cpp src.h dep.h
 
 src/cmd.o:	src/cmd.cpp src/include/cmd.h
 
 src/Image.o: src/Image.cpp src/include/Image.h src/include/Filter.h src/include/Filter.h
 
+all: vernead2 doc
+
+vernead2: src/cmd.o
+	$(LD) $(LD_FLAGS) -o $@ $^
+
+compile: vernead2
+
+run: vernead2
+	$ ./vernead2
+
+clean:
+	rm -f vernead2 src/*.o vernead2.zip
+	rm -rf doc/ zip_build/
+
+doc:
+	doxygen Doxyfile
+
+zip: clean
+	mkdir -p zip_build/vernead2
+	cp -r src examples tests zadani.txt Makefile prohlaseni.txt Doxyfile zip_build/vernead2/
+	cd zip_build; zip -r ../vernead2 vernead2/
 
 
-run:
-ifeq (,$(wildcard ./vernead2))
-	$(error Project has not been build, run 'make all')
-else
-	$(SHELL) vernead2
-endif
+lines:
+	 wc src/*.cpp src/include/*.h -l
 
 
-.PHONY: all run clean doc
+.PHONY: all run clean doc compile zip
 
 
 

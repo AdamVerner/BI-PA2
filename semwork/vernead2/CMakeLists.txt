@@ -16,11 +16,19 @@ file(GLOB sources "src/*.cpp")
 list(REMOVE_ITEM sources "${CMAKE_SOURCE_DIR}/src/cmd.cpp")
 
 add_executable(main src/cmd.cpp ${sources})
+target_link_libraries(main jpeg png)
 
 add_executable(test2 tests/testUtils.cpp ${sources})
+target_link_libraries(test2 jpeg png)
+
 add_executable(test3 tests/testImageGetter.cpp ${sources})
+target_link_libraries(test3 jpeg png)
+
 add_executable(test4 tests/testJPEGConverter.cpp ${sources})
-target_link_libraries(test4 jpeg )
+target_link_libraries(test4 jpeg png)
 
 add_executable(test5 tests/testPNGConverter.cpp ${sources})
 target_link_libraries(test5 jpeg png )
+
+add_executable(test6 tests/megaTest.cpp ${sources})
+target_link_libraries(test6 jpeg png)

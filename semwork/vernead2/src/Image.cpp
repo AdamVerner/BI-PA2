@@ -57,10 +57,11 @@ imgDataRow_t CImage::getRow(size_t idx) const {
     return mData.at(idx);
 }
 
-size_t CImage::getHeight() const {
-    return mHeight;
-}
-
+/**
+ * reverse LUT Lookup.
+ * Find out index
+ *
+ * */
 size_t CImage::reverseLUTLookup(const char c) const {
     // TODO optimize
 
@@ -69,9 +70,13 @@ size_t CImage::reverseLUTLookup(const char c) const {
     auto const first = stringLUT.find_first_of(c);
     auto const last = stringLUT.find_first_of(c);
 
-    if(first == std::string::npos || last == std::string::npos) throw std::logic_error("invalid LUT format");
+    if(first == std::string::npos || last == std::string::npos) throw std::logic_error("character not in LUT");
 
     return (first + last) / 2;
+}
+
+void CImage::scale(const CScaler & scaler) {
+    scaler.processData(mData, mWidth, mHeight);
 }
 
 CImage_ASCII::CImage_ASCII(const std::string & filename){

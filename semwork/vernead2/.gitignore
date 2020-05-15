@@ -1,2 +1,7 @@
-*.o
+.idea/
+src/*.o
 doc/*
+cmake-build-debug/
+zip_build/
+vernead2
+vernead2.zip

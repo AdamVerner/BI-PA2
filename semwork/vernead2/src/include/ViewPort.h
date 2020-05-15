@@ -2,6 +2,8 @@
 // Created by vernead2 on 30.04.20.
 //
 
+/* wouldn't it be better to just overload `<<` ?  */
+
 #pragma once
 
 #include "Image.h"
@@ -47,19 +49,13 @@ private:
  * ANSI Terminal viewport.
  * ANSI control sequences from: http://www.termsys.demon.co.uk/vtansi.htm
  *
- *
  * */
 class ViewPort_ANSI: public ViewPort_Terminal{
 public:
     void displayImage(const CImage &) override;
-    // TODO
 };
 
 class FileViewPort: public ViewPort{
 
 
-};
-
-class ViewPort_NCurses: public ViewPort{
-    // TODO
 };
