@@ -2,11 +2,11 @@
 // Created by vernead2 on 30.04.20.
 //
 
-/* wouldn't it be better to just overload `<<` ?  */
+/* wouldn't it be better to just overload `<<` instead ?  */
 
 #pragma once
 
-#include "Image.h"
+#include "CImage/CImage.h"
 #include "Sequence.h"
 
 class ViewPort{

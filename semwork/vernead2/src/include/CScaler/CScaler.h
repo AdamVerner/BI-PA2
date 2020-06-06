@@ -18,7 +18,7 @@
  * When downscaling each 4 pixels are shrunk into 1, halving each dimension
  * Similarly to upscaling, this process is repeated unless dimensions are less or equal to the request
  *
- * TODO implement percentage percent scaler
+ * TODO implement percentage scaler
  * */
 class CScaler {
 public:
@@ -36,30 +36,8 @@ protected:
 
 private:
     void scaleDown( imgData_t & data, size_t & width, size_t & height ) const;
-
     void scaleUp( imgData_t & data, size_t & width, size_t & height ) const;
 
-
 };
 
 
-/** Scaler using Bilinear interpolation.
- *  https://rosettacode.org/wiki/Bilinear_interpolation
- *
- *
- * */
-class CScaler_BilinearInterpolation {
-
-
-};
-
-
-/** Pixel art scaling algorithm.
- * https://en.wikipedia.org/wiki/Hqx
- * http://forums.nesdev.com/viewtopic.php?p=82770#82770
- * https://pastebin.com/YXpmqvW5 (public domain)
- * */
-class CScaler_HQX {
-
-
-};

@@ -1,6 +1,6 @@
 .idea/
 src/*.o
-doc/*
+doc/
 cmake-build-debug/
 zip_build/
 vernead2

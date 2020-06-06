@@ -5,10 +5,10 @@
 #include <iostream>
 #include <sstream>
 #include <cassert>
+#include <memory>
+#include <CImage/CImage.h>
 
 #include "ViewPort.h"
-#include "Image.h"
-#include "Scaler.h"
 
 
 int main(){
@@ -24,9 +24,6 @@ int main(){
 
     assert(jpegImage->getHeight() <= 350);
     assert(jpegImage->getWidth() <= 350);
-
-    // jpegImage->scale(CScaler(200, 200));
-    //simpleView.displayImage(*jpegImage);
 
 
 }

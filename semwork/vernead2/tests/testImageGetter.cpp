@@ -7,7 +7,6 @@
 #include <cassert>
 
 #include "ViewPort.h"
-#include "Image.h"
 
 
 int main(){

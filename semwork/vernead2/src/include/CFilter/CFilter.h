@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "Image.h"
+#include "CImage/CImage.h"
 #include "dataTypes.h"
 
 
@@ -18,17 +18,3 @@ class CFilter{
 };
 
 
-class CFilter_Inverse{
-
-
-};
-
-
-class CFilter_Rotate{
-
-
-};
-
-class CFilter_LowPass{ };
-class CFilter_HighPass{ };
-class CFilter_Sharpen{ };

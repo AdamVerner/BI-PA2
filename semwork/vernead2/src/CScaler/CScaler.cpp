@@ -1,6 +1,8 @@
+//
+// Created by vernead2 on 06.06.20.
+//
 
-#include <Image.h>
-#include "Scaler.h"
+#include "CScaler/CScaler.h"
 
 /**
  * @param[in,out] data Data to be modified

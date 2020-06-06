@@ -4,7 +4,7 @@
 
 #include <cassert>
 
-#include "Image.h"
+#include "CImage/CImage.h"
 
 int main(){
 

@@ -10,8 +10,8 @@
 #include <ostream>
 #include <bits/unique_ptr.h>
 
-#include "Filter.h"
-#include "Scaler.h"
+#include "CFilter.h"
+#include "CScaler/CScaler.h"
 #include "dataTypes.h"
 
 class CFilter;
@@ -20,8 +20,9 @@ extern const char ASCIITranslation [257]; /**< LUT for raw to ASCII translation 
 
 enum CImageType{ JPG, PNG, ASCII, AUTO };
 
+
 /**
- * Image class.
+ * Base Image class.
  * Holds image information, can perform transformations, filtering and other image editing processes
  */
 class CImage{
@@ -59,27 +60,6 @@ protected:
     const char * LUT = ASCIITranslation; /**< lookup table for raw to ascii translation */
 
     size_t reverseLUTLookup(char) const;
-
-};
-
-class CImage_ASCII: public CImage{
-public:
-    explicit CImage_ASCII(const std::string &);
-};
-
-
-class CImage_PNG: public CImage{
-public:
-
-    explicit CImage_PNG(const std::string &);
-
-};
-
-
-class CImage_JPG: public CImage{
-public:
-    explicit CImage_JPG(const std::string &);
-
 
 };
 
