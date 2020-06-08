@@ -2,6 +2,7 @@
 // Created by vernead2 on 06.06.20.
 //
 
+#include <iostream>
 #include "CScaler/CScaler.h"
 
 /**
@@ -43,21 +44,22 @@ void CScaler::scaleDown( imgData_t & data, size_t & width, size_t & height ) con
 void CScaler::scaleUp( imgData_t & data, size_t & width, size_t & height ) const {
     while( height < getReqHeight( ) && width < getReqWidth( )) {
 
+        auto old_data = data; // deep copy
+
         /* resize the array to for the upscaled image*/
         data.resize( height * 2 );
         for( auto & row: data )
-            row.resize( width * 2 );
+            row.resize( width * 2);
+
+        // TODO wouldn't it be more efficient to create new and use the old one as source?
 
         /* mx and my represent upper left corner of the 2x2 scaling region */
         for( size_t y = 0; y < height; y++ ) {
-            size_t my = height * 2 - y * 2 - 2; // -2 to convert size to last index and to select the second to last
             for( size_t x = 0; x < width; x++ ) {
-                size_t mx = width * 2 - x * 2 - 2;
-
-                data[my][mx] = data[y][x];
-                data[my][mx + 1] = data[y][x];
-                data[my + 1][mx] = data[y][x];
-                data[my + 1][mx + 1] = data[y][x];
+                data[y * 2]    [x * 2]     = old_data[y][x];
+                data[y * 2]    [x * 2 + 1] = old_data[y][x];
+                data[y * 2 + 1][x * 2]     = old_data[y][x];
+                data[y * 2 + 1][x * 2 + 1] = old_data[y][x];
             }
         }
 

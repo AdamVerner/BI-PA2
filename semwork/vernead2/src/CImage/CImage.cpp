@@ -6,14 +6,10 @@
 
 /* One extra byte for null terminator (eases up things) */
 extern const char ASCIITranslation [257] =
-        R"(####$$$$@@@@%%%%8888&&&&WWWWMMMM####****ooooaaaahhhhkkkkddddppppqqqqwwwwmmmmZZZZ0000QQQQLLLLJJJJUUUUYYYYXXXXzzzzccccvvvvuuuuxxx)"
+        R"(############%%%%8888&&&&WWWWMMMM####****ooooaaaahhhhkkkkddddppppqqqqwwwwmmmmZZZZ0000QQQQLLLLJJJJUUUUYYYYXXXXzzzzccccvvvvuuuuxxx)"
         R"())))1111{{}}[[]]????<<<<>>>>iiii!!!!++++;;;;::::~~~~~~~~--------,,,,,,,,""""""""^^^^^^^^''''''''````````........______           )"
 ;
 
-
-imgDataRow_t CImage::getRow(size_t idx) const {
-    return mData.at(idx);
-}
 
 /**
  * reverse LUT Lookup.
@@ -21,7 +17,7 @@ imgDataRow_t CImage::getRow(size_t idx) const {
  *
  * */
 size_t CImage::reverseLUTLookup(const char c) const {
-    // TODO optimize
+    // TODO optimize by pre-calculating the reverse lookup table(or save as map)
 
     auto const stringLUT = std::string(LUT);
 
@@ -33,17 +29,49 @@ size_t CImage::reverseLUTLookup(const char c) const {
     return (first + last) / 2;
 }
 
-void CImage::scale(const CScaler & scaler) {
+void CImage::applyScaler( const CScaler & scaler) {
     scaler.processData(mData, mWidth, mHeight);
 }
-
-
 
 std::ostream & operator<<(std::ostream & os, const CImage & img) {
     os << "CImage <" << img.mName << " " << img.mHeight << " x " << img.mWidth << ">";
     return os;
 }
 
+CImage::CImage( const CImage & other) {
+    mName = other.mName;
+    mData = other.mData;
+    mWidth = other.mWidth;
+    mHeight = other.mHeight;
+
+    LUT = other.LUT; // TODO copy the LUT
+
+}
+
+CImage::CImage( size_t width, size_t height, const char * src ) {
+
+    mWidth = width;
+    mHeight = height;
+    mData = std::vector< std::vector<uint8_t> > (mHeight, std::vector<uint8_t>(mWidth, 0));
+
+    for(size_t y = 0; y < mHeight; y++ )
+        for( size_t x = 0; x < mWidth; x++ )
+            mData[y][x] = reverseLUTLookup(src[y * width + x]);
+}
+
+bool CImage::merge( const CImage & other) {
+
+    if(mWidth != other.mWidth || mHeight != other.mHeight)
+        return false;
+
+    for(size_t y = 0; y < mHeight; y++ )
+        for( size_t x = 0; x < mWidth; x++ )
+            mData[y][x] = (mData[y][x] + other.mData[y][x]) / 2;
+
+    return true;
+}
+
+/* TODO move to cmd.cpp */
 std::unique_ptr<CImage> getImageFromFilename(const std::string & filename, CImageType type) {
 
     if(type == AUTO ){
@@ -65,6 +93,7 @@ std::unique_ptr<CImage> getImageFromFilename(const std::string & filename, CImag
     }
 }
 
+/* TODO move to cmd.cpp */
 inline bool ends_with(std::string const & value, std::string const & ending)
 {
     if (ending.size() > value.size()) return false;

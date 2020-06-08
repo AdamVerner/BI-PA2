@@ -7,5 +7,13 @@
 #include <vector>
 #include <cstdint>
 
-typedef std::vector<std::vector<uint8_t>> imgData_t;
-typedef std::vector<uint8_t> imgDataRow_t;
+#define PIXEL_MAX UINT8_MAX
+
+/* must be even so that the pixel that's being examined is right in the middle */
+#define PX_BOX_SIZE 3
+
+
+typedef uint8_t pixel_t;
+typedef std::vector<std::vector<pixel_t>> imgData_t;
+typedef std::vector<pixel_t> imgDataRow_t;
+

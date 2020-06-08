@@ -14,6 +14,7 @@
  * https://pastebin.com/YXpmqvW5 (public domain)
  * */
 class CScaler_HQX : public CScaler{
-
+public:
+    CScaler_HQX( size_t width, size_t height ): CScaler(width, height) { };
 
 };

@@ -64,7 +64,7 @@ OPTIONS:
 Filter specification
   Filters are specified by single string split by colon.
     FILTER_NAME[:PARAM1[:PARAM2[:PARAM3... ]]]
-  More examples can be found in documentation. here are somme examples.
+  More examples can be found in documentation. here are some examples.
 
   -f lowpass:average:5:2
   -f higpass:average:3:1

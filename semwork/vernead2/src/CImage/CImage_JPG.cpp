@@ -112,9 +112,9 @@ CImage_JPG::CImage_JPG(const std::string & fileName){
 
             size_t idx = sizeof(uint8_t) * (y * mWidth * 3 + x * 3);
 
-            uint16_t avg = (data[ idx + 0 * sizeof(uint8_t) ]);
-            avg +=         (data[ idx + 1 * sizeof(uint8_t) ]);
-            avg +=         (data[ idx + 2 * sizeof(uint8_t) ]);
+            uint16_t avg = (data[ idx + 0 ]);
+            avg +=         (data[ idx + 1 ]);
+            avg +=         (data[ idx + 2 ]);
 
             avg /= 3;
             avg = 255 - avg;

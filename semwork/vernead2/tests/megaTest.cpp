@@ -7,6 +7,8 @@
 #include <cassert>
 #include <memory>
 #include <CImage/CImage.h>
+#include <CFilter/CFilter_Inverse.h>
+#include <CScaler/CScaler_HQX.h>
 
 #include "ViewPort.h"
 
@@ -19,11 +21,32 @@ int main(){
 
     ViewPort_Terminal simpleView(std::cout);
 
-    jpegImage->scale(CScaler(350, 350));
+    jpegImage->applyScaler(CScaler_HQX(350, 350));
+    jpegImage->applyFilter(CFilter_Inverse());
     simpleView.displayImage(*jpegImage);
 
     assert(jpegImage->getHeight() <= 350);
     assert(jpegImage->getWidth() <= 350);
 
+    CImage img(3, 3, " # ### # ");
+    simpleView.displayImage(img);
+    img.applyFilter(CFilter_Inverse());
+    simpleView.displayImage(img);
+
+    img.applyFilter(CFilter_Inverse());
+    std::cout << img << std::endl;
+    simpleView.displayImage(img);
+
+    img.applyScaler(CScaler(6, 6));
+    std::cout << img << std::endl;
+    simpleView.displayImage(img);
+
+    img.applyScaler(CScaler(3, 3));
+    std::cout << img << std::endl;
+    simpleView.displayImage(img);
+
+    img.applyScaler(CScaler(6, 6));
+    std::cout << img << std::endl;
+    simpleView.displayImage(img);
 
 }

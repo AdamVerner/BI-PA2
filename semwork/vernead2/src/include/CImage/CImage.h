@@ -10,11 +10,9 @@
 #include <ostream>
 #include <bits/unique_ptr.h>
 
-#include "CFilter.h"
+#include "CFilter/CFilter.h"
 #include "CScaler/CScaler.h"
 #include "dataTypes.h"
-
-class CFilter;
 
 extern const char ASCIITranslation [257]; /**< LUT for raw to ASCII translation */
 
@@ -32,34 +30,61 @@ public:
     CImage(const CImage & );
     explicit CImage(const std::string &);
 
-    void applyFilter(const CFilter &);
+    /**
+     * Create CImage from raw data. e.g. `CImage(3, 3, " * *** * ")` to crete a star.
+     * */
+    CImage(size_t, size_t, const char *);
 
     /**
-     * Scale image to required size
+     * Save Image to location.
+     *
+     *
+     */
+    bool save(const std::string);
+
+
+    /**
+     * Filter image using specified filter.
+     * @param scaler
+     * @see CFilter
+     * */
+    inline void applyFilter( const CFilter & filter ){ filter.processImage( *this ); }
+
+    /**
+     * Scale image to required size.
      * @param scaler instance of CScaler to scale the image with
-     * @param w requested width
-     * @param h requested height
      * @see CScaler
      */
-    void scale(const CScaler & scaler);
-    imgDataRow_t getRow(size_t) const;
-    inline size_t getHeight() const { return mHeight; }
-    inline size_t getWidth() const { return mWidth; }
+    void applyScaler( const CScaler &);
 
-    friend std::ostream &operator<<(std::ostream &, const CImage &);
+    inline size_t getWidth() const { return mWidth; }
+    inline size_t getHeight() const { return mHeight; }
+
+    inline pixel_t getPixel(size_t x, size_t y) const { return mData.at(y).at(x); };
+    inline void setPixel(size_t x, size_t y, pixel_t value) { mData.at(y).at(x) = value; };
+
+    /**
+     * Merge other image into itself.
+     * Each pixel is averaged between these two.
+     * */
+    bool merge(const CImage &);
 
     uint8_t LUTLookup(size_t idx) const{ return LUT[idx]; }
 
+    friend std::ostream &operator<<(std::ostream &, const CImage &);
+
 protected:
-    std::string mName;   /**< original image filename. Can be None */
+
+    size_t reverseLUTLookup(char) const;
+
+    std::string mName;   /**< original image filename. Can be None if sourced from terminal*/
+
     imgData_t mData;     /**< images RAW data */
 
     size_t mWidth = 0;   /**< image width */
     size_t mHeight = 0;  /**< image height */
 
     const char * LUT = ASCIITranslation; /**< lookup table for raw to ascii translation */
-
-    size_t reverseLUTLookup(char) const;
 
 };
 

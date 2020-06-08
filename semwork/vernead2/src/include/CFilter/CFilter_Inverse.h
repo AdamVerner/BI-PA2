@@ -7,7 +7,13 @@
 #include "CImage/CImage.h"
 #include "dataTypes.h"
 
-class CFilter_Inverse{
+class CFilter_Inverse: public CFilter {
+public:
+    CFilter_Inverse() = default; // : CFilter() {}
 
+private:
+    pixel_t processPixel(pixel_t value) const override ;
+
+protected:
 
 };

@@ -33,3 +33,6 @@ target_link_libraries(test5 jpeg png )
 
 add_executable(test6 tests/megaTest.cpp ${sources})
 target_link_libraries(test6 jpeg png)
+
+add_executable(test7 tests/testFilters.cpp ${sources})
+target_link_libraries(test7 jpeg png)

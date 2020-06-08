@@ -24,10 +24,11 @@ class CScaler {
 public:
     CScaler( size_t width, size_t height ) : mReqWidth( width ), mReqHeight( height ) { }
 
+    CScaler() = delete;
+
     virtual void processData( imgData_t & data, size_t & width, size_t & height ) const;
 
     inline size_t getReqWidth( ) const { return mReqWidth; }
-
     inline size_t getReqHeight( ) const { return mReqHeight; }
 
 protected:

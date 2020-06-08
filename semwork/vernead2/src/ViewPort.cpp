@@ -11,11 +11,13 @@
 void ViewPort_Terminal::displayImage(const class CImage & img ) {
 
     for (size_t y = 0; y < img.getHeight(); y++){
-        for(const auto & x: img.getRow(y))
-            output << img.LUTLookup(x) << " "; // TODO instead of printing space, rescale image by ~60%
+        for( size_t x = 0; x < img.getWidth( ); x++ ) {
+            output << img.LUTLookup( img.getPixel( x, y ));
+            if (x != img.getWidth()-1) output << " ";
+            // TODO instead of printing space, rescale image by ~60%
+        }
         output << std::endl;
     }
-
 }
 
 void ViewPort_Terminal::displaySequence(const CSequence &) {
