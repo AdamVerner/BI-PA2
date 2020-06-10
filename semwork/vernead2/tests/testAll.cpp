@@ -1,21 +1,22 @@
 //
-// Created by vernead2 on 01.05.20.
+// Created by vernead2 on 09.06.20.
 //
 
 #include <iostream>
 #include <sstream>
 #include <cassert>
 #include <memory>
-#include <CImage/CImage.h>
-#include <Filter/Filter_Inverse.h>
-#include <CScaler/CScaler_HQX.h>
 
-#include "ViewPort.h"
+
+#include "../src/Image/Image.h"
 
 
 int main(){
 
-    std::unique_ptr<CImage> jpegImage = getImageFromFilename("examples/kitty.jpg", AUTO);
+    Image<pixel_bw_t<uint8_t>> img(3, 3, " # ### # ");
+
+
+    std::unique_ptr<Image> jpegImage = getImageFromFilename("examples/kitty.jpg", AUTO);
 
     std::ostringstream oss;
 
@@ -28,7 +29,7 @@ int main(){
     assert(jpegImage->getHeight() <= 350);
     assert(jpegImage->getWidth() <= 350);
 
-    CImage img(3, 3, " # ### # ");
+    Image img(3, 3, " # ### # ");
     simpleView.displayImage(img);
     img.applyFilter(Filter_Inverse());
     simpleView.displayImage(img);

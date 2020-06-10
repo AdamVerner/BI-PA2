@@ -5,70 +5,49 @@
 #include <iostream>
 #include <sstream>
 #include <cassert>
-#include <memory>
-#include <CFilter/CFilter_Sharpen.h>
-
-#include "CImage/CImage.h"
-#include "CFilter/CFilter_Inverse.h"
-#include "CScaler/CScaler_HQX.h"
-#include "CFilter/CFilter_LowPass.h"
-#include "CFilter/CFilter_HighPass.h"
-#include "ViewPort.h"
-
+#include "../src/Image/Image.h"
+#include "../src/Filter/Filter_Inverse.h"
+#include "../src/Filter/Filter_LowPass.h"
+#include "../src/Filter/Filter_HighPass.h"
+#include "../src/Filter/Filter_Sharpen.h"
 
 int main(){
 
     std::ostringstream oss;
-    ViewPort_Terminal ossView( oss);
-    ViewPort_Terminal coutView( std::cout);
-
-    CImage img(3, 3, " # ### # ");
+    Image<pixel_rgb_t<uint8_t>> img(3, 3, " # ### # ");
 
     assert (img.getWidth() == 3);
     assert (img.getHeight() == 3);
 
-    ossView.displayImage( img);
+    oss << img;
+    assert(oss.str() == "  #  \n# # #\n  #  \n"); // spaces are inserted between each char(might change)
 
-    assert(oss.str() == "  #  \n# # #\n  #  \n"); // spaces are inserted between each char
+    img.applyFilter(Filter_Inverse<pixel_rgb_t<uint8_t>>());
+    oss.clear();
+    oss << img;
+    assert(oss.str() == "#   #\n     \n#   #\n"); // spaces are inserted between each char(might change)
 
+    img.applyFilter(Filter_Inverse<pixel_rgb_t<uint8_t>>());
+    oss.clear();
+    oss << img;
+    assert(oss.str() == "  #  \n# # #\n  #  \n"); // spaces are inserted between each char(might change)
 
-    img.applyFilter(CFilter_Inverse());
-    ossView.displayImage( img);
+    img.applyFilter(Filter_LowPass<pixel_rgb_t<uint8_t>>());
+    img.applyFilter(Filter_HighPass<pixel_rgb_t<uint8_t>>());
+    img.applyFilter(Filter_Sharpen<pixel_rgb_t<uint8_t>>());
 
-    img.applyFilter(CFilter_Inverse());
-    std::cout << img << std::endl;
-    ossView.displayImage( img);
+    std::cout << img;
 
-    img.applyScaler(CScaler(6, 6));
-    std::cout << img << std::endl;
-    ossView.displayImage( img);
+    Image<pixel_rgb_t<uint8_t>> first(3, 3, " # ### # ");
+    Image<pixel_rgb_t<uint8_t>> second(3, 3, " # ### # ");
 
-    img.applyScaler(CScaler(3, 3));
-    std::cout << img << std::endl;
-    ossView.displayImage( img);
+    first.applyScaler(Scaler(15, 15));
+    second.applyScaler(Scaler(15, 15));
 
-    img.applyScaler(CScaler(15, 15));
-    std::cout << img << std::endl;
-    coutView.displayImage( img);
-
-    img.applyFilter(CFilter_LowPass());
-    img.applyFilter(CFilter_HighPass());
-    img.applyFilter(CFilter_Sharpen());
-
-    coutView.displayImage( img);
-
-
-    CImage first(3, 3, " # ### # ");
-    CImage second(3, 3, " # ### # ");
-
-    first.applyScaler(CScaler(15, 15));
-    second.applyScaler(CScaler(15, 15));
-
-    second.applyFilter(CFilter_Sharpen());
+    second.applyFilter(Filter_Sharpen<pixel_rgb_t<uint8_t>>());
 
     first.merge(second);
 
-    coutView.displayImage( first);
-
+    std::cout << first;
 
 }

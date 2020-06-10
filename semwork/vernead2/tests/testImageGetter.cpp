@@ -5,43 +5,49 @@
 #include <iostream>
 #include <sstream>
 #include <cassert>
+#include "../src/dataTypes.h"
+#include "../src/Image/Image.h"
+// #include "../src/Image/Loaders/Loader.cpp"
 
-#include "ViewPort.h"
 
+void testConstructionAndMerge(){
+    Image_ASCII img2(3, 3, " # ### # ");
+    Image_ASCII img3(3, 3, "## ##    ");
+
+    std::stringstream oss;
+    oss << img2;
+    assert(oss.str() == "Image <3 x 3>\n  #  \n# # #\n  #  \n");
+
+    oss.str("");
+    oss.clear();
+    oss << img3;
+    assert(oss.str() == "Image <3 x 3>\n"
+                        "# #  \n"
+                        "# #  \n"
+                        "     \n");
+
+    img2.merge(img3);
+
+    oss.str("");
+    oss.clear();
+    oss << img2;
+    std::cout << oss.str();
+    assert(oss.str() == "Image <3 x 3>\n"
+                        "+ #  \n"
+                        "# # +\n"
+                        "  +  \n");
+}
 
 int main(){
+    testConstructionAndMerge();
 
-    std::unique_ptr<CImage> asciiImage = getImageFromFilename("tests/img.ascii", AUTO);
+    std::shared_ptr<Image> img1( new Image_ASCII(3, 3, "## ##    "));
 
-    std::ostringstream oss1;
-    std::ostringstream oss2;
-    std::cout << *asciiImage << std::endl;
+    //std::shared_ptr<Image> img2 = LoadImage("progtest.png");
 
-    oss1 << *asciiImage << std::endl;
-    assert(oss1.str() == "CImage <tests/img.ascii 15 x 22>\n");
+    // std::cout << *img2;
 
+    Image_ASCII img3(3, 3, "## ##    ");
 
-    ViewPort_Terminal simpleView(oss2);
-    simpleView.displayImage(*asciiImage);
-
-
-    std::cout << oss2.str() << std::endl << std::flush;
-
-    assert(oss2.str() ==
-           "###                   \n"
-           "#  #                  \n"
-           "#  # # ##   ###    ###\n"
-           "###  ##    #   #  #  #\n"
-           "#    #     #   #  #  #\n"
-           "#    #     #   #  #  #\n"
-           "#    #      ###    ###\n"
-           "                     #\n"
-           "                   ## \n"
-           "                      \n"
-           " #    ###   ###   #   \n"
-           "###  #   # #     ###  \n"
-           " #   #####  ###   #   \n"
-           " #   #         #  #   \n"
-           "  ##  ###   ###    ## \n");
 
 }

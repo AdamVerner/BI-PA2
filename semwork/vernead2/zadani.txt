@@ -97,8 +97,8 @@ Například: [progtest.ascii](examples/progtest.ascii).
 ## Polymorphism
 Polymorfismus je využit v několika případech,
 
-### CImage
-Hlavní třída CImage obsahuje reprezentaci dat, metody na aplikaci filtrů, scalerů.
+### Image
+Hlavní třída Image obsahuje reprezentaci dat, metody na aplikaci filtrů, scalerů.
 Její potomci CImage_PNG, CImage_JPEG a další implementují načítání dat a jejich ukládání.
 
 ### CFilter
@@ -112,5 +112,5 @@ Může být použito víc algoritmů pro scalování obrázků. Například Bili
 # Current state
 CLI implementation is postponed until all the internals are sorted out, so i don't have to redo-it.
 Currently it can be used as simple programming interface to access PNGs and JPEGs.
-CImage can hold one channel (grayscale) of data, adding more channels would not require much work.
+Image can hold one channel (grayscale) of data, adding more channels would not require much work.
 There is basic CScale implemented. to simply downscale and upscale images.

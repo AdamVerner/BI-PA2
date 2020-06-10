@@ -19,7 +19,7 @@ src/Image.o: src/Image.cpp src/include/Image.h src/include/Filter.h src/include/
 
 all: vernead2 doc
 
-vernead2: src/cmd.o
+vernead2: src_old
 	$(LD) $(LD_FLAGS) -o $@ $^
 
 compile: vernead2
