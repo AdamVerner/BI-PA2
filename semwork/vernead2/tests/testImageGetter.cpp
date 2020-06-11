@@ -7,12 +7,11 @@
 #include <cassert>
 #include "../src/dataTypes.h"
 #include "../src/Image/Image.h"
-// #include "../src/Image/Loaders/Loader.cpp"
-
+#include "../src/Image/Loaders/Loader.h"
 
 void testConstructionAndMerge(){
-    Image_ASCII img2(3, 3, " # ### # ");
-    Image_ASCII img3(3, 3, "## ##    ");
+    Image img2(3, 3, " # ### # ");
+    Image img3(3, 3, "## ##    ");
 
     std::stringstream oss;
     oss << img2;
@@ -41,13 +40,9 @@ void testConstructionAndMerge(){
 int main(){
     testConstructionAndMerge();
 
-    std::shared_ptr<Image> img1( new Image_ASCII(3, 3, "## ##    "));
+    Image img1(3, 3, "## ##    ");
+    Image img2 = LoadImage("img.ascii");
 
-    //std::shared_ptr<Image> img2 = LoadImage("progtest.png");
-
-    // std::cout << *img2;
-
-    Image_ASCII img3(3, 3, "## ##    ");
-
+    std::cout << img2;
 
 }

@@ -37,9 +37,7 @@ void Scaler::scaleDown( imgData_t & data, size_t & width, size_t & height ) cons
     }
 
     // resize the array to discard old data
-    data.resize( height );
-    for( auto & row: data )
-        row.resize( width );
+    data.resize( width * height );
 }
 
 void Scaler::scaleUp( imgData_t & data, size_t & width, size_t & height ) const {
@@ -47,20 +45,19 @@ void Scaler::scaleUp( imgData_t & data, size_t & width, size_t & height ) const 
 
         auto old_data = data; // deep copy
 
-        /* resize the array to for the upscaled image*/
-        data.resize( height * 2 );
-        for( auto & row: data )
-            row.resize( width * 2);
+        /* resize the array to fit the upscaled image*/
+        data.resize( width * height );
 
         // TODO wouldn't it be more efficient to create new and use the old one as source?
 
         /* mx and my represent upper left corner of the 2x2 scaling region */
         for( size_t y = 0; y < height; y++ ) {
             for( size_t x = 0; x < width; x++ ) {
-                data[y * 2]    [x * 2]     = old_data[y][x];
-                data[y * 2]    [x * 2 + 1] = old_data[y][x];
-                data[y * 2 + 1][x * 2]     = old_data[y][x];
-                data[y * 2 + 1][x * 2 + 1] = old_data[y][x];
+
+                data[y*2 * width + x * 2] = old_data[y * width + x];
+                data[y*2 * width + x * 2 + 1] = old_data[y * width + x];
+                data[(y*2 + 1) * width + x * 2] = old_data[y * width + x];
+                data[(y*2 + 1) * width + x * 2 + 1] = old_data[y * width + x];
             }
         }
 

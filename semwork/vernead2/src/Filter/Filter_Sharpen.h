@@ -6,23 +6,11 @@
 
 #include "Filter.h"
 
-template <typename ColorSpace>
-class Filter_Sharpen: public Filter<ColorSpace>{
+/**
+ * Sharpen filter.
+ * Increase the contrast between bright and dark regions which brings out features.
+ * */
+class Filter_Sharpen : public FilterKernel {
 public:
-    Filter_Sharpen()=default; // : Filter() {}
-
-private:
-    /** Simple high pass filter implementation.
-     * ```
-     * +----+----+----+
-     * |-1/9|-1/9|-1/9|
-     * +----+----+----+
-     * |-1/9| +1 |-1/9|
-     * +----+----+----+
-     * |-1/9|-1/9|-1/9|
-     * +----+----+----+
-     * ```
-     * */
-    ColorSpace processPixelBox(ColorSpace [3][3]) const override;
-
+    Filter_Sharpen( double weight = 1 ) : FilterKernel( { -1/9, -1/9, -1/9, -1/9, weight, -1/9, -1/9, -1/9, -1/9 } ) { }
 };

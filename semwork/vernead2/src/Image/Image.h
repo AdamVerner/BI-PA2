@@ -23,7 +23,12 @@ public:
 
     Image( ) = default;
 
-    Image( const Image & other);
+    Image( const Image & other) {
+        mData = other.mData;
+        mLUT = other.mLUT;
+        mWidth = other.mWidth;
+        mHeight = other.mHeight;
+    }
 
     Image(size_t, size_t);
 
@@ -44,12 +49,12 @@ public:
     inline size_t getWidth() const { return mWidth; }
     inline size_t getHeight() const { return mHeight; }
 
-    inline pixel_t & Pixel(size_t x, size_t y) { return *mData.at(y * mWidth + x); }
-    inline const pixel_t & Pixel(size_t x, size_t y) const { return *mData.at(y * mWidth + x); }
+    inline pixel_t & Pixel(size_t x, size_t y) { return mData.at(y * mWidth + x); }
+    inline const pixel_t & Pixel(size_t x, size_t y) const { return mData.at(y * mWidth + x); }
 
     /** Transforms a pixel to ASCII representation */
     char LUTLookup(const pixel_t & idx) const{
-        size_t max = pixel_bw_t(-1).getGray();
+        size_t max = pixel_t(-1).getGray();
         size_t step = mLUT.length();
         size_t gray = idx.getGray();
         return mLUT[gray * step / max ];
@@ -66,7 +71,7 @@ public:
 
         for(size_t y = 0; y < mHeight; y++ )
             for( size_t x = 0; x < mWidth; x++ )
-                *mData[y * mWidth + x] += *other.mData[y * mWidth + x];
+                mData[y * mWidth + x].merge(other.mData[y * mWidth + x]);
         return true;
     }
 
@@ -84,6 +89,34 @@ public:
         return os;
     }
 
+    /** Create Image from string data. e.g. `Image(3, 3, " * *** * ")` to crete a star.  */
+    Image(size_t width, size_t height, const char * src ){
+        mWidth = width;
+        mHeight = height;
+        mLUT = DEFAULT_LUT;
+        mData = std::vector<pixel_t>(width * height);
+        for(size_t y = 0; y < mHeight; y++ )
+            for( size_t x = 0; x < mWidth; x++ )
+                mData[y * mWidth + x] = reverseLUTLookup(src[y * mWidth + x]);
+    }
+
+    /** Transform a ASCII letter into pixel */
+    pixel_t reverseLUTLookup(char c) const{
+        // TODO optimize by pre-calculating the reverse lookup table(or save as map)
+
+        uint8_t max = pixel_t(-1).getGray();
+        uint8_t lut_len = mLUT.length();
+
+        uint8_t inc =  std::ceil((double)max / lut_len);
+        uint8_t val = inc / 2; // start in the middle of the range
+
+        for (const auto & l: mLUT){
+            if(l == c) return {val};
+            val += inc;
+        }
+
+        throw std::logic_error("character not in LUT");
+    }
 
 
 protected:
@@ -108,35 +141,7 @@ public:
 class Image_ASCII: public ImageBW{
 public:
 
-    /** Create Image from string data. e.g. `Image(3, 3, " * *** * ")` to crete a star.  */
-    Image_ASCII(size_t width, size_t height, const char * src ){
-        mWidth = width;
-        mHeight = height;
-        mLUT = DEFAULT_LUT;
-        mData = std::vector<std::shared_ptr<pixel_t>>(width * height);
-        for(size_t y = 0; y < mHeight; y++ )
-            for( size_t x = 0; x < mWidth; x++ )
-                mData[y * mWidth + x] = std::shared_ptr<pixel_bw_t>(new pixel_bw_t(reverseLUTLookup(src[y * mWidth + x])));
-    }
-
-    /** Transform a ASCII letter into pixel */
-    pixel_bw_t reverseLUTLookup(char c) const{
-        // TODO optimize by pre-calculating the reverse lookup table(or save as map)
-
-        uint8_t max = pixel_bw_t(-1).getGray();
-        uint8_t lut_len = mLUT.length();
-
-        uint8_t inc =  std::ceil((double)max / lut_len);
-        uint8_t val = inc / 2; // start in the middle of the range
-
-        for (const auto & l: mLUT){
-            if(l == c) return {val};
-            val += inc;
-        }
-
-        throw std::logic_error("character not in LUT");
-    }
-
+    Image_ASCII(const std::string & file) {}
 
 };
 

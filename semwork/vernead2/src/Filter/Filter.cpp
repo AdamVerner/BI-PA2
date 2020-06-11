@@ -5,33 +5,11 @@
 #include <stdexcept>
 #include "Filter.h"
 
-void Filter::processImage( Image & img ) const {
-
-    Image & img_copy = img;
-    // construct copy only if really needed.
-    // this could be optimized by only having copy of the bytes we need (size of PixelBox)
-    if(m_usePixelBlock)
-        img_copy = Image(img);
-
-    for(size_t y = 0; y < img.getHeight(); y++){
-        for(size_t x = 0; x < img.getWidth(); x++){
-            if (m_usePixelBlock) {
-                imgData_t pixelBox = generatePixelBlock(img_copy, x, y);
-                img.Pixel( x, y) = processPixelBox(pixelBox);
-            }
-            else{
-                processPixel(img.Pixel( x, y));
-            }
-        }
-    }
-}
-
-
 imgData_t Filter::generatePixelBlock( Image & img, size_t img_x, size_t img_y) const {
 
     // TODO PX_BOX_SIZE variable size
 
-    imgData_t pixelBox(9);
+    imgData_t pixelBox(9, 0);
 
     for(ssize_t y = -1; y <= 1; y++){
         for(ssize_t x = -1; x <= 1; x++){
@@ -39,18 +17,20 @@ imgData_t Filter::generatePixelBlock( Image & img, size_t img_x, size_t img_y) c
             // Bound checking is done in `array.at` method.
             // This should be efficient because of the Zero-Cost Exception Model.
             try {
-                pixelBox [(y+1) * 3 + (x + 1)] = std::shared_ptr<pixel_t>( &img.Pixel(img_x + x, img_y + y) );
+                pixelBox [(y+1) * 3 + (x + 1)] = img.Pixel(img_x + x, img_y + y);
             }
             catch(std::out_of_range & err){
                 switch(m_sidePolicy){
                     case(ZERO):
-                        pixelBox [y+ 1][x+1] = 0;
+                        pixelBox [(y+1) * 3 + (x + 1)] = 0;
                     break;
+                    case(MAX):
+                        pixelBox [(y+1) * 3 + (x + 1)] = -1;
                     break;
                     case (AVERAGE): // TODO
+                        pixelBox [(y+1) * 3 + (x + 1)] = img.Pixel(img_x, img_y);
                     case (CENTER):
-                        pixelBox[y+1][x+1] = img.getPixel(img_x, img_y);
-
+                        pixelBox [(y+1) * 3 + (x + 1)] = img.Pixel(img_x, img_y);
                         break;
                     default:
                         throw std::logic_error("Not implemented");

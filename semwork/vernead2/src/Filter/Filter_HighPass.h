@@ -5,24 +5,12 @@
 #pragma once
 
 #include "Filter.h"
+#include "FilterKernel.h"
 
-template <typename ColorSpace = pixel_rgba_t<uint8_t>>
-class Filter_HighPass: public Filter<ColorSpace>{
+/**
+ * High pass filter
+ * */
+class Filter_HighPass : public FilterKernel {
 public:
-    Filter_HighPass()= default; // : Filter() {}
-
-private:
-    /** Simple high pass filter implementation.
-     * ```
-     * +----+----+----+
-     * | 0  |-1/4| 0  |
-     * +----+----+----+
-     * |-1/4| +2 |-1/4|
-     * +----+----+----+
-     * | 0  |-1/4| 0  |
-     * +----+----+----+
-     * ```
-     * */
-    ColorSpace processPixelBox(ColorSpace [3][3]) const override;
-
+    Filter_HighPass( ) : FilterKernel( { 0, -1/4.0, 0, -1/4.0, -1/4.0, -1/4.0, 0, -1/4.0, 0 } ) { }
 };

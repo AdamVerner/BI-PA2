@@ -6,14 +6,10 @@
 
 #include "Filter.h"
 
-template <typename ColorSpace = pixel_rgba_t<uint8_t>>
-class Filter_Inverse: public Filter<ColorSpace> {
+class Filter_Inverse: public Filter {
 public:
     Filter_Inverse() = default; // : Filter() {}
 
 private:
-    ColorSpace processPixel(ColorSpace value) const override ;
-
-protected:
-
+    virtual pixel_t processPixel(pixel_t & value) const { return {(uint8_t)(-1 - value.r), (uint8_t)(-1 - value.g), (uint8_t)(-1 - value.b), value.a}; }
 };

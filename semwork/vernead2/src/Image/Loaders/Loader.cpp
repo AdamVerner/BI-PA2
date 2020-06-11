@@ -9,10 +9,6 @@
 #include "../Image.h"
 
 /* TODO move to cmd.cpp */
-bool ends_with(std::string const & value, std::string const & ending) {
-    if (ending.size() > value.size()) return false;
-    return std::equal(ending.rbegin(), ending.rend(), value.rbegin(), [](char c1, char c2) -> bool{ return std::toupper(c1) == std::toupper(c2);});
-}
 
 
 /*

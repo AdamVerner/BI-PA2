@@ -36,8 +36,8 @@ protected:
     size_t mReqHeight;
 
 private:
-    void scaleDown( imgData_t & data, size_t & width, size_t & height ) const;
-    void scaleUp( imgData_t & data, size_t & width, size_t & height ) const;
+    virtual void scaleDown( imgData_t & data, size_t & width, size_t & height ) const;
+    virtual void scaleUp( imgData_t & data, size_t & width, size_t & height ) const;
 
 };
 
