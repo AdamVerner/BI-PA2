@@ -11,10 +11,6 @@
 // #define DEFAULT_LUT R"(############%%%%8888&&&&WWWWMMMM####****ooooaaaahhhhkkkkddddppppqqqqwwwwmmmmZZZZ0000QQQQLLLLJJJJUUUUYYYYXXXXzzzzccccvvvvuuuuxxx))))1111{{}}[[]]????<<<<>>>>iiii!!!!++++;;;;::::~~~~~~~~--------,,,,,,,,""""""""^^^^^^^^''''''''````````........______           )"
 #define DEFAULT_LUT "#@WLIoji+;:'\"_. "
 
-const char * default_lut = DEFAULT_LUT;
-char * global_lut = nullptr;
-
-
 struct pixel_t{
     uint8_t r; /**< Red channel */
     uint8_t g; /**< Green channel */

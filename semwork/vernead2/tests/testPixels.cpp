@@ -61,5 +61,6 @@ int main(){
     }
 
     assert(pixel_t(-1) == UINT8_MAX);
+    static_assert( sizeof(pixel_t) == 4, "sizeof pixel_t does not match RGBA");
 
 }

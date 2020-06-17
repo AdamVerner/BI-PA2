@@ -4,6 +4,7 @@
 
 #include <stdexcept>
 #include "Filter.h"
+#include "Image/Image.h"
 
 imgData_t Filter::generatePixelBlock( Image & img, size_t img_x, size_t img_y) const {
 
@@ -39,4 +40,26 @@ imgData_t Filter::generatePixelBlock( Image & img, size_t img_x, size_t img_y) c
         }
     }
 
+    return pixelBox;
+
+}
+
+void Filter::processImage( Image & img ) const {
+
+    // construct copy only if really needed.
+    // this could be optimized by only having copy of the bytes we need (size of PixelBox)
+    // if(m_usePixelBlock)
+    ImagePtr img_copy = img.copy();
+
+    for(size_t y = 0; y < img.getHeight(); y++){
+        for(size_t x = 0; x < img.getWidth(); x++){
+            if (m_usePixelBlock) {
+                imgData_t pixelBox = generatePixelBlock(*img_copy, x, y);
+                img.Pixel(x, y) = processPixelBox(pixelBox);
+            }
+            else{
+                processPixel(img.Pixel( x, y));
+            }
+        }
+    }
 }

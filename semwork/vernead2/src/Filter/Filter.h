@@ -6,8 +6,7 @@
 
 #pragma once
 
-#include "../Image/Image.h"
-
+#include "dataTypes.h"
 class Image;
 
 /**
@@ -42,26 +41,7 @@ public:
     /**
      * Take the image and modify each pixel according to the selected filter policy
      * */
-    void processImage( Image & img ) const{
-
-        Image & img_copy = img;
-        // construct copy only if really needed.
-        // this could be optimized by only having copy of the bytes we need (size of PixelBox)
-        if(m_usePixelBlock)
-            img_copy = Image(img);
-
-        for(size_t y = 0; y < img.getHeight(); y++){
-            for(size_t x = 0; x < img.getWidth(); x++){
-                if (m_usePixelBlock) {
-                    imgData_t pixelBox = generatePixelBlock(img_copy, x, y);
-                    img.Pixel(x, y) = processPixelBox(pixelBox);
-                }
-                else{
-                    processPixel(img.Pixel( x, y));
-                }
-            }
-        }
-    }
+    void processImage( Image & img ) const;
 
 
 

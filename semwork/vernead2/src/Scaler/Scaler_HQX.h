@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstddef>
+#include "Scaler.h"
 
 /** Pixel art scaling algorithm.
  * https://en.wikipedia.org/wiki/Hqx

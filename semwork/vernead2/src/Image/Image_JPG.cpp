@@ -1,52 +1,35 @@
 //
-// Created by home-6 on 08.06.20.
+// Created by home-6 on 14.06.20.
 //
 
-#include <jpeglib.h>
-#include <csetjmp>
-#include <string>
-#include <stdexcept>
-#include <vector>
-#include "LoadJPEG.h"
+#include "Image_JPG.h"
 
+std::unique_ptr<JSAMPLE[]> Image_JPG::getRawData( ) {
 
-
-struct my_error_mgr {
-    struct jpeg_error_mgr pub;    /* "public" fields */
-    jmp_buf setjmp_buffer;    /* for return to caller */
-};
-
-
-//-------------------------------------------------------------------------------------------------
-void my_error_exit(j_common_ptr cinfo) {
-    /* cinfo->err really points to a my_error_mgr struct, so coerce pointer */
-    auto * myerr = (my_error_mgr *) cinfo->err;
-
-    /* Always display the message. */
-    /* We could postpone this until after returning, if we chose. */
-    (*cinfo->err->output_message)(cinfo);
-
-    /* Return control to the setjmp point */
-    longjmp(myerr->setjmp_buffer, 1);
+    std::unique_ptr<JSAMPLE []> rawData(new JSAMPLE [mHeight * mWidth * 4]);
+    for(size_t i = 0; i < mWidth*mHeight; i++) {
+        rawData[i*4  ] = mData[i].r;
+        rawData[i*4+1] = mData[i].g;
+        rawData[i*4+2] = mData[i].b;
+        rawData[i*4+3] = mData[i].a;
+    }
+    return rawData;
 }
 
-
-void LoadJPEG(const std::string & fileName){
-    mName = fileName;
+Image_JPG::Image_JPG( const std::string & filename ) : filename(filename) {
 
     struct jpeg_decompress_struct cinfo{};
     struct my_error_mgr jerr{};
     FILE * fp;
 
 
-    if ((fp = fopen(fileName.c_str(), "rb")) == nullptr) {
+    if ((fp = fopen(filename.c_str(), "rb")) == nullptr) {
         throw std::logic_error("failed to open Image");
     }
 
     /* Step 1: allocate and initialize JPEG decompression object */
     /* We set up the normal JPEG error routines, then override error_exit. */
     cinfo.err = jpeg_std_error(&jerr.pub);
-    jerr.pub.error_exit = my_error_exit;
 
     /* Establish the setjmp return context for my_error_exit to use. */
 
@@ -106,29 +89,57 @@ void LoadJPEG(const std::string & fileName){
     fclose(fp);
 
     /* And we're done! */
+    mData = imgData_t(mWidth * mHeight, 0);
 
-    // convert data to mData
-    // mWidth * mHeight * 3
 
-    mData = std::vector< std::vector<uint8_t> > (mHeight, std::vector<uint8_t>(mWidth, 0));
-
-    for(size_t y = 0; y < mHeight; y++ ){
-
-        for(size_t x = 0; x < mWidth; x++ ){
-
-            size_t idx = sizeof(uint8_t) * (y * mWidth * 3 + x * 3);
-
-            uint16_t avg = (data[ idx + 0 ]);
-            avg +=         (data[ idx + 1 ]);
-            avg +=         (data[ idx + 2 ]);
-
-            avg /= 3;
-            avg = 255 - avg;
-
-            mData[y][x] = avg;
-
-        }
+    for(size_t i = 0; i < mWidth*mHeight; i++) {
+        mData[i].r = data[i*3];
+        mData[i].g = data[i*3 + 1];
+        mData[i].b = data[i*3 + 2];
+        mData[i].a = 255;
     }
+
     delete[] data;
+
+}
+
+void Image_JPG::save( ) {
+
+    jpeg_compress_struct cinfo{};
+    jpeg_error_mgr jerr{};
+
+    FILE * outfile = nullptr;
+
+    cinfo.err = jpeg_std_error(&jerr);
+    jpeg_create_compress(&cinfo);
+
+    cinfo.image_width = mWidth;
+    cinfo.image_height = mHeight;
+    cinfo.input_components = 4;		/* # of color components per pixel */
+    cinfo.in_color_space = JCS_EXT_RGBA;
+
+    jpeg_set_defaults(&cinfo);
+
+    std::unique_ptr<JSAMPLE []> rawData = getRawData();
+
+    if ((outfile = fopen(filename.c_str(), "wb")) == nullptr)
+        throw FileException("Can't open " + filename +" for writing");
+
+    jpeg_stdio_dest(&cinfo, outfile);
+    jpeg_start_compress(&cinfo, TRUE);
+
+    while (cinfo.next_scanline < cinfo.image_height) {
+
+        JSAMPROW row_pointer = &(rawData)[cinfo.next_scanline * mWidth * 4];
+        (void) jpeg_write_scanlines(&cinfo, &row_pointer, 1);
+    }
+
+    jpeg_finish_compress(&cinfo);
+    /* After finish_compress, we can close the output file. */
+
+    /* Step 7: release JPEG compression object */
+
+    /* This is an important step since it will release a good deal of memory. */
+    jpeg_destroy_compress(&cinfo);
 
 }

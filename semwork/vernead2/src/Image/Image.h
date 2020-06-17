@@ -4,15 +4,19 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
 #include <cstring>
 #include <cmath>
 #include <memory>
+#include <iostream>
+
 #include "../dataTypes.h"
 #include "../Scaler/Scaler.h"
 #include "../Filter/Filter.h"
 
-enum ImageType{ JPG, PNG, ASCII, AUTO };
+enum ImageType{ JPG, PNG, ASCII, AUTO, UNKNOWN };
+
 
 /**
  * Base Image class.
@@ -23,16 +27,10 @@ public:
 
     Image( ) = default;
 
-    Image( const Image & other) {
-        mData = other.mData;
-        mLUT = other.mLUT;
-        mWidth = other.mWidth;
-        mHeight = other.mHeight;
-    }
+    Image( const Image & other)= default;
 
     Image(size_t, size_t);
 
-    virtual bool save(){ return false; };
 
     /**Filter image using specified filter.
      * @param filter
@@ -53,106 +51,42 @@ public:
     inline const pixel_t & Pixel(size_t x, size_t y) const { return mData.at(y * mWidth + x); }
 
     /** Transforms a pixel to ASCII representation */
-    char LUTLookup(const pixel_t & idx) const{
-        size_t max = pixel_t(-1).getGray();
-        size_t step = mLUT.length();
-        size_t gray = idx.getGray();
-        return mLUT[gray * step / max ];
-    }
+    char LUTLookup(const pixel_t & idx) const;
 
     /**
      * Merge two images of same size.
      * @return false on failure
      * */
-    bool merge( const Image & other){
+    bool merge( const Image & other);
 
-        if(mWidth != other.mWidth || mHeight != other.mHeight)
-            return false;
-
-        for(size_t y = 0; y < mHeight; y++ )
-            for( size_t x = 0; x < mWidth; x++ )
-                mData[y * mWidth + x].merge(other.mData[y * mWidth + x]);
-        return true;
-    }
+    /**
+     * Calculate difference between two images
+     * @return difference normalized to 0-1 where 0 means same, 1 means totally different
+     * */
+    double difference(const Image & other) const;
 
 
-    friend std::ostream &operator<<(std::ostream & os, const Image & img){
-        os << "Image <" << img.mHeight << " x " << img.mWidth << ">" << std::endl;
-
-        for (size_t y = 0; y < img.mHeight; y++){
-            for( size_t x = 0; x < img.mWidth ; x++ ) {
-                os << img.LUTLookup( img.Pixel( x, y ));
-                if (x != img.mWidth - 1) os << " "; // TODO instead of printing space, rescale image by ~60%
-            }
-            os << std::endl;
-        }
-        return os;
-    }
+    friend std::ostream &operator<<(std::ostream & os, const Image & img);
 
     /** Create Image from string data. e.g. `Image(3, 3, " * *** * ")` to crete a star.  */
-    Image(size_t width, size_t height, const char * src ){
-        mWidth = width;
-        mHeight = height;
-        mLUT = DEFAULT_LUT;
-        mData = std::vector<pixel_t>(width * height);
-        for(size_t y = 0; y < mHeight; y++ )
-            for( size_t x = 0; x < mWidth; x++ )
-                mData[y * mWidth + x] = reverseLUTLookup(src[y * mWidth + x]);
-    }
+    Image(size_t width, size_t height, const char * src );
 
     /** Transform a ASCII letter into pixel */
-    pixel_t reverseLUTLookup(char c) const{
-        // TODO optimize by pre-calculating the reverse lookup table(or save as map)
+    pixel_t reverseLUTLookup(char c) const;
 
-        uint8_t max = pixel_t(-1).getGray();
-        uint8_t lut_len = mLUT.length();
+    virtual void save() {};
+    virtual void saveAs(const std::string & ) {};
 
-        uint8_t inc =  std::ceil((double)max / lut_len);
-        uint8_t val = inc / 2; // start in the middle of the range
-
-        for (const auto & l: mLUT){
-            if(l == c) return {val};
-            val += inc;
-        }
-
-        throw std::logic_error("character not in LUT");
-    }
+    std::shared_ptr<Image> copy() const{ return std::make_shared<Image>(*this); }
 
 
 protected:
 
-    imgData_t mData; /**< images RAW data */
+    imgData_t mData {}; /**< images RAW data */
     std::string mLUT = DEFAULT_LUT; /**< Lookup table for pixel to ascii translation */
 
-    size_t mWidth;   /**< image width */
-    size_t mHeight;  /**< image height */
+    size_t mWidth = 0;   /**< image width */
+    size_t mHeight = 0;  /**< image height */
 };
 
-
-class ImageBW: public Image{
-public:
-
-    ImageBW(){ };
-
-    ImageBW( const Image & other ): Image( other ) { };
-
-};
-
-class Image_ASCII: public ImageBW{
-public:
-
-    Image_ASCII(const std::string & file) {}
-
-};
-
-class ImageRGB{
-
-};
-
-class ImageRGBA{
-
-};
-
-class Image_PNG{
-    std::string mName;   /**< original image filename. Can be None if sourced from terminal*/
-};
+typedef std::shared_ptr<Image> ImagePtr;

@@ -7,7 +7,7 @@
 #include <getopt.h>  /* for getopt_long*/
 
 
-#include "include/cmd.h"
+#include "cmd.h"
 
 void help(const std::string & prgName){
     std::cout << "Usage: " << prgName<< " [OPTIONS] ... IMAGES ... OUTPUTS" << std::endl;

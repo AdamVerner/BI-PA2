@@ -7,27 +7,15 @@
 #include <string>
 #include <memory>
 
-bool ends_with(std::string const & value, std::string const & ending) {
-    if (ending.size() > value.size()) return false;
-    return std::equal(ending.rbegin(), ending.rend(), value.rbegin(), [](char c1, char c2) -> bool{ return std::toupper(c1) == std::toupper(c2);});
-}
+#include "Image/Image.h"
+#include "Image/Image_JPG.h"
+#include "Image/Image_PNG.h"
+#include "Image/Image_ASCII.h"
 
-/*
-std::unique_ptr<Image> getImageFromFilename(const std::string &, ImageType = AUTO);
-*/
+bool ends_with(std::string const & value, std::string const & ending);
 
-Image_ASCII LoadImage(const std::string & filename){
+ImageType ImageTypeFromFilename(const std::string & filename);
 
-    if (ends_with(filename, ".ascii")){
-        return Image_ASCII(filename);
-    }
-    else if (ends_with(filename, ".png")){
+std::shared_ptr<Image> LoadImage(const std::string & filename, const ImageType & type);
 
-    }
-    else if (ends_with(filename, ".jpg") || ends_with(filename, ".jpeg")){
-
-    }
-    else throw std::logic_error("Cannot autodetect image based on filename");
-
-    return {"asd"};
-}
+void SaveAs(const std::shared_ptr<Image> & imgPtr, const std::string & filename, ImageType imgType);

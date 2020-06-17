@@ -8,11 +8,13 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-long-long")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-elide-constructors")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-delete-non-virtual-dtor")
+
 
 include_directories(src/)
 
-file(GLOB_RECURSE sources "src_old/*.cpp")
-list(REMOVE_ITEM sources "${CMAKE_SOURCE_DIR}/src/cmd.cpp")
+file(GLOB_RECURSE sources "src/*.cpp")
+list(REMOVE_ITEM sources "${CMAKE_SOURCE_DIR}/src/Interface/cmd.cpp")
 
 add_executable(main src/Interface/cmd.cpp ${sources})
 target_link_libraries(main jpeg png)
