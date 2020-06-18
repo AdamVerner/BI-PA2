@@ -135,11 +135,11 @@ int main( ) {
     testPNGParser( );
     testJPGParser( );
 
-    Image_PNG img("tests/progtest.png");
-    Image i2(img);
-    Image_JPG i3(i2);
+    Image_JPG img("examples/kitty.jpg");
+    Image_PNG i3( (Image(img)) );
 
+    i3.saveAs("tests/new.png");
 
-    std::cout << i2;
+    std::cout << i3;
 
 }

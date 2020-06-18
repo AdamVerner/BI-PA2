@@ -13,5 +13,5 @@
  * */
 class Filter_LowPass : public FilterKernel {
 public:
-    Filter_LowPass( ) : FilterKernel( { 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9 } ) { }
+    Filter_LowPass( ) : FilterKernel( { 1.0/9, 1.0/9, 1.0/9, 1.0/9, 1.0/9, 1.0/9, 1.0/9, 1.0/9, 1.0/9 } ) { }
 };

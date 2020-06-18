@@ -26,10 +26,8 @@
  * */
 class FilterKernel: public Filter{
 public:
-    FilterKernel( std::vector<double> square ): Filter( CENTER) {
-        for(size_t i = 0; i < 9; i++)
-            mSquare[i] = square[i];
-    }
+
+    explicit FilterKernel( std::vector<double> square );
 
 
 protected:
@@ -39,21 +37,6 @@ private:
     /**
      * Calculate new value for each pixel. preserve alpha channel.
      * */
-    pixel_t processPixelBox(imgData_t box) const override{
-
-        // needs more space to prevent overflows
-        uint16_t sum_r = 0;
-        uint16_t sum_g = 0;
-        uint16_t sum_b = 0;
-
-        for(size_t i = 0; i < 9; i++) {
-            sum_r += box[i].r * mSquare[i];
-            sum_g += box[i].g * mSquare[i];
-            sum_b += box[i].b * mSquare[i];
-        }
-
-        return {(uint8_t)sum_r, (uint8_t)sum_g, (uint8_t)sum_b, box[5].a};
-
-    }
+    pixel_t processPixelBox(imgData_t box) const override;
 
 };

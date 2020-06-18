@@ -143,3 +143,8 @@ void Image_JPG::save( ) {
     jpeg_destroy_compress(&cinfo);
 
 }
+
+void Image_JPG::saveAs( const std::string & fn ) {
+    this->filename = fn;
+    save();
+}

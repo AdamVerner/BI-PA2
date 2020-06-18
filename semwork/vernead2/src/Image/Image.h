@@ -36,7 +36,9 @@ public:
      * @param filter
      * @see Filter
      * */
-    inline void applyFilter( const Filter & filter ){ filter.processImage( *this ); }
+    inline void applyFilter( const Filter & filter ){
+        filter.processImage( *this );
+    }
 
     /**Scale image to required size.
      * @param scaler instance of Scaler to scale the image with
@@ -77,16 +79,16 @@ public:
     virtual void save() {};
     virtual void saveAs(const std::string & ) {};
 
-    std::shared_ptr<Image> copy() const{ return std::make_shared<Image>(*this); }
+    virtual std::shared_ptr<Image> copy() const{ return std::make_shared<Image>(*this); }
 
+
+    size_t mWidth = 0;   /**< image width */
+    size_t mHeight = 0;  /**< image height */
 
 protected:
 
     imgData_t mData {}; /**< images RAW data */
     std::string mLUT = DEFAULT_LUT; /**< Lookup table for pixel to ascii translation */
-
-    size_t mWidth = 0;   /**< image width */
-    size_t mHeight = 0;  /**< image height */
 };
 
 typedef std::shared_ptr<Image> ImagePtr;

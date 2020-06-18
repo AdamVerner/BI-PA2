@@ -12,5 +12,5 @@
  * */
 class Filter_Sharpen : public FilterKernel {
 public:
-    Filter_Sharpen( double weight = 1 ) : FilterKernel( { -1/9, -1/9, -1/9, -1/9, weight, -1/9, -1/9, -1/9, -1/9 } ) { }
+    Filter_Sharpen( double weight = 2 ) : FilterKernel( { -1.0/9, -1.0/9, -1.0/9, -1.0/9, weight, -1.0/9, -1.0/9, -1.0/9, -1.0/9 } ) { }
 };

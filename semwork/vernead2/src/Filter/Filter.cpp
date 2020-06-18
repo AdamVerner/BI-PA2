@@ -51,14 +51,14 @@ void Filter::processImage( Image & img ) const {
     // if(m_usePixelBlock)
     ImagePtr img_copy = img.copy();
 
-    for(size_t y = 0; y < img.getHeight(); y++){
-        for(size_t x = 0; x < img.getWidth(); x++){
+    for(size_t y = 0; y < img.mHeight; y++){
+        for(size_t x = 0; x < img.mWidth; x++){
             if (m_usePixelBlock) {
                 imgData_t pixelBox = generatePixelBlock(*img_copy, x, y);
                 img.Pixel(x, y) = processPixelBox(pixelBox);
             }
             else{
-                processPixel(img.Pixel( x, y));
+                img.Pixel(x, y) = processPixel(img.Pixel( x, y));
             }
         }
     }

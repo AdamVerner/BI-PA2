@@ -12,5 +12,8 @@
  * */
 class Filter_HighPass : public FilterKernel {
 public:
-    Filter_HighPass( ) : FilterKernel( { 0, -1/4.0, 0, -1/4.0, -1/4.0, -1/4.0, 0, -1/4.0, 0 } ) { }
+    Filter_HighPass( double weight = 2 ) : FilterKernel( { -1./9, -1./9, -1./9,
+                                         -1./9,  weight, -1./9,
+                                         -1./9, -1./9, -1./9} ) { }
+
 };

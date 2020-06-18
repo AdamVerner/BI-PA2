@@ -81,8 +81,8 @@ void Image_PNG::save( ) {
 void Image_PNG::parseRawData( const std::unique_ptr<png_byte[]> & rawData ) {
 
     this->mData = imgData_t(mWidth * mHeight, 0);
-
-    switch(png_get_color_type(png_ptr, info_ptr)){
+    uint8_t color_type = png_get_color_type(png_ptr, info_ptr);
+    switch(color_type){
         case(PNG_COLOR_TYPE_RGB_ALPHA):
             for(size_t i = 0; i < mHeight * mWidth; i++){
                 this->mData[i].r = rawData[i*4];
@@ -98,6 +98,13 @@ void Image_PNG::parseRawData( const std::unique_ptr<png_byte[]> & rawData ) {
                 this->mData[i].b = rawData[i*3+2];
                 this->mData[i].a = 255;
             }
+        break;
+        case(PNG_COLOR_TYPE_GRAY):
+
+            for(size_t i = 0; i < mHeight * mWidth; i++){
+                this->mData[i] = pixel_t(rawData[i]);
+            }
+
             break;
         default:
             throw FileException("Invalid PNG Format");
@@ -110,6 +117,10 @@ void Image_PNG::normalizePNG( ) {
     png_byte color_type = png_get_color_type(png_ptr, info_ptr);
     png_byte bit_depth  = png_get_bit_depth(png_ptr, info_ptr);
 
+
+    if(color_type == PNG_COLOR_TYPE_GRAY ||
+       color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+        png_set_gray_to_rgb(png_ptr);
 
     if(bit_depth == 16)
         png_set_strip_16(png_ptr);
@@ -130,32 +141,22 @@ void Image_PNG::normalizePNG( ) {
        color_type == PNG_COLOR_TYPE_PALETTE)
         png_set_filler(png_ptr, 0xFF, PNG_FILLER_AFTER);
 
-    if(color_type == PNG_COLOR_TYPE_GRAY ||
-       color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
-        png_set_gray_to_rgb(png_ptr);
-
-
+    if (bit_depth == 16)
+        png_set_strip_16(png_ptr);
 
 }
 
 void Image_PNG::LoadPNG() {
 
-    png_byte header[8];
-
     /* open file and test for it being a png */
     FILE * fp = fopen(filename.c_str(), "rb");
     if (!fp) throw FileException("File could not be opened for reading");
 
-    fread(header, 1, 8, fp);
-
-    if (png_sig_cmp( header, 0, 8))
-        throw FileException("File is not a PNG");
-
     png_init_io(png_ptr, fp);
-    png_set_sig_bytes(png_ptr, 8);
+
     png_read_info(png_ptr, info_ptr);
 
-    normalizePNG();
+    // normalizePNG();
 
     png_read_update_info(png_ptr, info_ptr);
 
@@ -172,16 +173,22 @@ void Image_PNG::LoadPNG() {
     mHeight = png_get_image_height(png_ptr, info_ptr);
 
     // structures required by libPNG
+
     std::unique_ptr<png_byte[]> rawData(new png_byte [png_get_rowbytes(png_ptr, info_ptr) * mHeight]);
     std::unique_ptr<png_bytep[]> row_pointers(new png_bytep [mHeight]);
     for (size_t y = 0; y < mHeight; y++)
         row_pointers[y] = &rawData[y * png_get_rowbytes(png_ptr, info_ptr)];
 
     png_read_image(png_ptr, row_pointers.get());
-    // png_read_end(png_ptr, info_ptr);
+    png_read_end(png_ptr, info_ptr);
 
     fclose(fp);
 
     parseRawData( rawData );
 
+}
+
+void Image_PNG::saveAs( const std::string & fn ) {
+    this->filename = fn;
+    save();
 }

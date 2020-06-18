@@ -21,7 +21,10 @@ public:
 
     void save() override;
 
-    void saveAs(const std::string &) override {};
+    void saveAs(const std::string & fn) override;
+
+    std::shared_ptr<Image> copy() const override{ return std::make_shared<Image_JPG>(*this); }
+
 
 private:
 
@@ -31,7 +34,5 @@ private:
     };
 
     std::unique_ptr<JSAMPLE[]> getRawData( );
-
-
     std::string filename;
 };

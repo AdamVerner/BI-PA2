@@ -21,7 +21,9 @@ public:
     explicit Image_PNG(const std::string & filename);
 
     void save() override;
-    void saveAs(const std::string &) override {};
+    void saveAs(const std::string & fn) override;
+
+    std::shared_ptr<Image> copy() const override{ return std::make_shared<Image_PNG>(*this); }
 
 private:
 
