@@ -3,6 +3,7 @@
 //
 
 #include <stdexcept>
+
 #include "Filter.h"
 #include "Image/Image.h"
 

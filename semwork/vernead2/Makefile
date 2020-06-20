@@ -3,8 +3,7 @@ SHELL = /bin/bash
 CXX = g++ -c
 LD = g++  -ljpeg
 CXX_FLAGS = -Wall -pedantic -Wno-long-long -O2 -Werror --coverage -std=c++11
-# LD_FLAGS = -ljpg -lpng
-
+LD_FLAGS = -ljpg -lpng
 
 default_target: all
 
@@ -19,7 +18,7 @@ src/Image.o: src/Image.cpp src/include/Image.h src/include/Filter.h src/include/
 
 all: vernead2 doc
 
-vernead2: src_old
+vernead2: src
 	$(LD) $(LD_FLAGS) -o $@ $^
 
 compile: vernead2

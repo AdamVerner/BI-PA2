@@ -993,11 +993,11 @@ IMAGE_PATH             =
 
 INPUT_FILTER           =
 
-# The FILTER_PATTERNS tag can be used to specify filters on a per file pattern
+# The FILTER_PATTERNS tag can be used to specify mFilters on a per file pattern
 # basis. Doxygen will compare the file name with each pattern and apply the
-# filter if there is a match. The filters are a list of the form: pattern=filter
+# filter if there is a match. The mFilters are a list of the form: pattern=filter
 # (like *.cpp=my_cpp_filter). See INPUT_FILTER for further information on how
-# filters are used. If the FILTER_PATTERNS tag is empty or if none of the
+# mFilters are used. If the FILTER_PATTERNS tag is empty or if none of the
 # patterns match the file name, INPUT_FILTER is applied.
 #
 # Note that for custom extensions or not directly supported extensions you also
@@ -1013,7 +1013,7 @@ FILTER_PATTERNS        =
 
 FILTER_SOURCE_FILES    = NO
 
-# The FILTER_SOURCE_PATTERNS tag can be used to specify source filters per file
+# The FILTER_SOURCE_PATTERNS tag can be used to specify source mFilters per file
 # pattern. A pattern will override the setting for FILTER_PATTERN (if any) and
 # it is also possible to disable source filtering for a specific pattern using
 # *.ext= (so without naming a filter).
@@ -1470,7 +1470,7 @@ QHP_VIRTUAL_FOLDER     = doc
 # If the QHP_CUST_FILTER_NAME tag is set, it specifies the name of a custom
 # filter to add. For more information please see Qt Help Project / Custom
 # Filters (see: https://doc.qt.io/archives/qt-4.8/qthelpproject.html#custom-
-# filters).
+# mFilters).
 # This tag requires that the tag GENERATE_QHP is set to YES.
 
 QHP_CUST_FILTER_NAME   =
@@ -1478,7 +1478,7 @@ QHP_CUST_FILTER_NAME   =
 # The QHP_CUST_FILTER_ATTRS tag specifies the list of the attributes of the
 # custom filter to add. For more information please see Qt Help Project / Custom
 # Filters (see: https://doc.qt.io/archives/qt-4.8/qthelpproject.html#custom-
-# filters).
+# mFilters).
 # This tag requires that the tag GENERATE_QHP is set to YES.
 
 QHP_CUST_FILTER_ATTRS  =

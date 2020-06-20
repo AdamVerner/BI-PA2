@@ -14,6 +14,12 @@ void Image_ASCII::LoadFile( const std::string & filename ) {
 
     if (! src.is_open()) throw FileException("Cannot open file " + filename);
 
+    char header [6];
+    src.read((char*) header, sizeof(header));
+
+    if(strncmp("ASCII\n", header, 6) != 0){
+        throw FileException("Missing header");
+    }
 
     // first line is LUT
     getline(src, mLUT, '\n');
@@ -49,7 +55,7 @@ void Image_ASCII::LoadFile( const std::string & filename ) {
             char s = src.get();
             stageData[y * mWidth + x] = reverseLUTLookup(s);
         }
-        if(src.get() != '\n') throw std::logic_error("line length differs");
+        if(src.get() != '\n') throw FileException("line length differs");
     }
 
     mData = std::move(stageData);
@@ -58,6 +64,17 @@ void Image_ASCII::LoadFile( const std::string & filename ) {
 
 void Image_ASCII::save( ) {
 
-    std::cout << "Fake writing " << std::endl;
-    //TODO
+    std::ofstream file(mFilename, std::ios::out | std::ios::binary );
+    if(! file.good())
+        throw FileException("File could not be opened for writing");
+
+    file << "ASCII" << std::endl;
+    file << mLUT << std::endl;
+
+    for (size_t y = 0; y < mHeight; y++){
+        for( size_t x = 0; x < mWidth ; x++ ) {
+            file << LUTLookup( Pixel( x, y ));
+        }
+        file << std::endl;
+    }
 }

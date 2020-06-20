@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Filter.h"
+#include "FilterKernel.h"
 
 /**
  * Sharpen filter.

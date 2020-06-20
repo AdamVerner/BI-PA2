@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include <ostream>
+#include <Exceptions.h>
 #include "Image.h"
 
 Image::Image( size_t width, size_t height) {
@@ -82,6 +83,21 @@ pixel_t Image::reverseLUTLookup( char c ) const {
         val += inc;
     }
 
-    throw std::logic_error("character not in LUT");
+    throw FileException("character not in LUT");
+}
+
+void Image::resizeCanvas( size_t width, size_t height, pixel_t background ) {
+    imgData_t newData(width * height, background);
+
+    for(size_t y = 0; y < std::min(height, mHeight); y++){
+        for(size_t x = 0; x < std::min(width, mWidth); x++) {
+            newData[y * width + x] = Pixel(x,y); // Get pixel could be used here
+        }
+    }
+
+    mData = newData;
+    mWidth = width;
+    mHeight = height;
+
 }
 

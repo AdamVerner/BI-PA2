@@ -114,3 +114,16 @@ CLI implementation is postponed until all the internals are sorted out, so i don
 Currently it can be used as simple programming interface to access PNGs and JPEGs.
 Image can hold one channel (grayscale) of data, adding more channels would not require much work.
 There is basic CScale implemented. to simply downscale and upscale images.
+
+
+# TODOList
+ - walkthrough script
+ - CMD interface (simplified) one picture at a time
+
+# Zdroje
+
+ - The filter logic and images were sourced from https://northstar-www.dartmouth.edu/doc/idl/html_6.2/Filtering_an_Imagehvr.html
+ - And https://northstar-www.dartmouth.edu/doc/idl/html_6.2/Sharpening_an_Image.html
+ - Rotation logic from Linear algebra textbook https://kam.fit.cvut.cz/deploy/bi-lin//lin-text.pdf
+ - Billinear Interpolation was sourced from wiki https://cs.wikipedia.org/wiki/Line%C3%A1rn%C3%AD_interpolace
+ - Kitty pictures sourced from pinterest.com https://www.pinterest.com/pin/12314598952539111/

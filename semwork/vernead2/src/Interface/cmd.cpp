@@ -6,8 +6,9 @@
 #include <cstdlib>    /* for exit */
 #include <getopt.h>  /* for getopt_long*/
 
-
+#include "Interactive.h"
 #include "cmd.h"
+#include "Selector.h"
 
 void help(const std::string & prgName){
     std::cout << "Usage: " << prgName<< " [OPTIONS] ... IMAGES ... OUTPUTS" << std::endl;
@@ -43,9 +44,46 @@ void help(const std::string & prgName){
     std::cout << "averner2 home page: <https://github.com/AdamVerner/CVUT-PA2/tree/master/semwork/vernead2/>" << std::endl;
 }
 
+void InteractiveEntrypoint( ) {
+
+    std::cout << "Welcome to '" << program_invocation_short_name << "'" << std::endl;
+    std::cout << "This is free software: you are free to change and redistribute it." << std::endl;
+    std::cout << "There is NO WARRANTY, to the extent permitted by law." << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "You've choose an interactive mode, you will be assisted in Editing images or creating sequences of images" << std::endl;
+    std::cout << std::endl;
+
+    bool stop = false;
+    Selector s;
+    s.Add(1, "Edit Image", [](){ interactive::EditImage(interactive::GetImageFromUser()); });
+    s.Add(3, "Create Image sequence", CreateSequence);
+    s.Add(10, "Exit", [&](){stop = true; });
+
+
+    std::cout.exceptions(std::iostream::eofbit);
+    try {
+        while(!stop) {
+            s.prompt( );
+        }
+
+        /* Whole program is executed from here. */
+        /* EOF means, that user does not want to continue... */
+
+    }
+    catch (std::iostream::failure & e){
+        exit(0);
+    }
+
+
+}
+
+
 int main(int argc, char **argv) {
 
-    help(argv[0]);
+    InteractiveEntrypoint();
+
+    // help(argv[0]);
     exit(0);
 
     int c;

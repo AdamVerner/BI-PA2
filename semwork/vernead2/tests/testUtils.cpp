@@ -4,37 +4,24 @@
 
 #include <cassert>
 #include <iostream>
-
-
-class A{
-public:
-    virtual char get() { return 'a';}
-};
-
-class B: public A{
-public:
-    char get() { return 'b'; }
-
-};
+#include <Interface/Selector.h>
 
 
 int main(){
 
-    A a;
-    B b;
-    A & ref = b;
+    std::cout.exceptions(std::iostream::goodbit);
 
-    std::cout << a.get() << std::endl;
-    std::cout << b.get() << std::endl;
-    std::cout << ref.get() << std::endl;
+    std::cout << "Input something: ";
 
+    char c;
 
-    /*
-    assert(ends_with("file.ASCII", ".ASCII"));
-    assert(ends_with("file.ascii", ".ASCII"));
-    assert(ends_with("file.aSCii", ".ASCII"));
-    assert(!ends_with("file.NOTASCII", ".ASCII"));
-    assert(!ends_with("file.png", ".ASCII"));
-*/
+    while( std::cin >> c)
+        std::cout << c << std::endl;
+
+    std::cin.clear();
+    fflush(stdin);
+
+    while( !(std::cin >> c))
+        std::cout << '-' << c << std::endl;
 
 }

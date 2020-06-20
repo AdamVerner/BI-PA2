@@ -5,8 +5,8 @@
 #include <iostream>
 #include <sstream>
 #include <cassert>
-#include <Scaler/Scaler_BilinearInterpolation.h>
 #include <Image/Loaders/Loader.h>
+#include <Filter/Filter_Grayscale.h>
 #include "../src/Image/Image.h"
 #include "../src/Filter/Filter_Inverse.h"
 #include "../src/Filter/Filter_LowPass.h"
@@ -59,7 +59,7 @@ void testSharpen(){
         std::cout << "Sharpen: " << ny->difference( *LoadImage( "tests/images/Sharpen/knee_sharp_comb.png", AUTO )) << std::endl;
 
         // oof can't get this to match the source
-        assert( ny->difference( *LoadImage( "tests/images/HighPass/ny_hp_comb.png", AUTO )) < 0.25 );
+        assert( ny->difference( *LoadImage( "tests/images/Sharpen/knee_sharp_comb.png", AUTO )) < 0.25 );
         ny->saveAs( "tests/new.png" );
     //}
 }
@@ -75,56 +75,10 @@ int main(){
     testLowPass( );
     testHighPass( );
     testSharpen( );
-    exit(0);
 
-    ImagePtr original = LoadImage( "tests/images/knee_orig.png", PNG);
-    original->saveAs("tests/images/out1.png");
+    ImagePtr original = LoadImage( "tests/images/leaf.jpg", AUTO);
+    original->applyFilter(Filter_Grayscale());
 
-    original->applyFilter(Filter_HighPass());
-
-    original->saveAs("tests/images/out2.png");
-
-    exit(0);
-
-    std::ostringstream oss;
-    Image img(3, 3, " # ### # ");
-
-    assert (img.getWidth() == 3);
-    assert (img.getHeight() == 3);
-
-    oss << img;
-    assert(oss.str() == "Image <3 x 3>\n  #  \n# # #\n  #  \n"); // spaces are inserted between each char(might change)
-
-    img.applyFilter(Filter_Inverse());
-
-    oss.clear();
-    oss.str("");
-    oss << img;
-    std::string save = oss.str();
-    assert(oss.str() == "Image <3 x 3>\n#   #\n     \n#   #\n"); // spaces are inserted between each char(might change)
-
-    img.applyFilter(Filter_Inverse());
-    oss.clear();
-    oss.str("");
-    oss << img;
-    assert(oss.str() == "Image <3 x 3>\n  #  \n# # #\n  #  \n"); // spaces are inserted between each char(might change)
-
-    img.applyFilter(Filter_LowPass());
-    img.applyFilter(Filter_HighPass());
-    img.applyFilter(Filter_Sharpen());
-
-    std::cout << img;
-
-    Image first(3, 3, " # ### # ");
-    Image second(3, 3, " # ### # ");
-
-    first.applyScaler(Scaler_BilinearInterpolation(20, 20));
-    second.applyScaler(Scaler_BilinearInterpolation(20, 20));
-
-    second.applyFilter(Filter_Sharpen());
-
-    first.merge(second);
-
-    std::cout << first;
+    original->saveAs("tests/images/new.jpg");
 
 }

@@ -58,7 +58,8 @@ struct pixel_t{
 
     bool operator==(const pixel_t& rhs){ return r == rhs.r && g == rhs.g && b == rhs.b && a == rhs.a; }
 
-    uint8_t getGray() const { return (this->r * 0.33 + this->g * 0.33 + this->b * 0.33) * a / 255; }
+    //uint8_t getGray() const { return (this->r * 0.33 + this->g * 0.33 + this->b * 0.33) * a / 255; }
+    uint8_t getGray() const { return (this->r * 0.3 + this->g * 0.59 + this->b * 0.11) * a / 255; }
 
     void merge(const pixel_t & other){
         r = r/2 + other.r/2;

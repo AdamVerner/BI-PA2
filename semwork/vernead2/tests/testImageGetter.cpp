@@ -32,9 +32,9 @@ void testConstructionAndMerge( ) {
     oss.clear( );
     oss << img2;
     assert( oss.str( ) == "Image <3 x 3>\n"
-                          "+ #  \n"
-                          "# # +\n"
-                          "  +  \n" );
+                          "i #  \n"
+                          "# # i\n"
+                          "  i  \n" );
 }
 
 void testAsciiParser( ) {
@@ -68,34 +68,34 @@ void testPNGParser(){
 
     std::stringstream oss1, oss2;
 
-    ImagePtr img = LoadImage( "tests/progtest.png", PNG );
+    ImagePtr img = LoadImage( "tests/images/progtest.png", PNG );
     oss1 << *img;
 
     img.get()->save();
 
     // test that the saved file will be loaded as same.
-    ImagePtr new_img = LoadImage( "tests/progtest.png", PNG );
+    ImagePtr new_img = LoadImage( "tests/images/progtest.png", PNG );
     oss2 << *new_img;
 
     assert(oss1.str() == oss2.str());
 
     assert(oss1.str() == "Image <16 x 16>\n"
-                       "# # # # # # # # # # # # # # # #\n"
-                       "o o o o o # # # o o o o o # # #\n"
-                       "o o o o o # # # o o o o o # # #\n"
-                       "o o o o o # # # o o o o o # # #\n"
-                       "o o o o o o # o o o o o o # # #\n"
-                       "o o o o o o o o o o o o o o o #\n"
-                       "# # o o o o o o o o o o o o o o\n"
-                       "# # # o o o o o o o o o o o o o\n"
-                       "# # o o o o o o o o o o o o o o\n"
-                       "o o o o o o o o o o o o o o o #\n"
-                       "o o o o o o o o o o o o o # # #\n"
-                       "o o o o o o o o o o o o o # # #\n"
-                       "o o o o o o o o o o o o o # # #\n"
-                       "# # # # o o o o o # # # # # # #\n"
-                       "# # # # o o o o o # # # # # # #\n"
-                       "# # # # # o o o # # # # # # # #\n");
+                         "# # # # # # # # # # # # # # # #\n"
+                         "W W W W W # # # W W W W W # # #\n"
+                         "W W W W W # # # W W W W W # # #\n"
+                         "W W W W W # # # W W W W W # # #\n"
+                         "W W W W W W # W W W W W W # # #\n"
+                         "W W W W W W W W W W W W W W W #\n"
+                         "# # W W W W W W W W W W W W W W\n"
+                         "# # # W W W W W W W W W W W W W\n"
+                         "# # W W W W W W W W W W W W W W\n"
+                         "W W W W W W W W W W W W W W W #\n"
+                         "W W W W W W W W W W W W W # # #\n"
+                         "W W W W W W W W W W W W W # # #\n"
+                         "W W W W W W W W W W W W W # # #\n"
+                         "# # # # W W W W W # # # # # # #\n"
+                         "# # # # W W W W W # # # # # # #\n"
+                         "# # # # # W W W # # # # # # # #\n");
 
     assert(img->difference(*new_img) < 0.000001);
 
@@ -107,22 +107,23 @@ void testJPGParser(){
 
     ImagePtr img = LoadImage( "tests/progtest.jpeg", JPG);
 
+    std::cout << *img;
     Image img_ref( 16, 16, "################"
-                      "ojooo###ooooo###"
-                      "ooooo###ooooo###"
-                      "ooojo###ooooo###"
-                      "oooooo#oooooo###"
-                      "ooooojooooooooo#"
-                      "##jooojoooojoooo"
-                      "###ojooooooooooo"
-                      "##oooooooooooooo"
-                      "oooooooooooojoo#"
-                      "ooooooooooojo###"
-                      "ooooooooooooj###"
-                      "ojoooooooojoo###"
-                      "####ooooo#######"
-                      "####ooooo#######"
-                      "#####ooo########" );
+                           "WLWWW###WWWWW###"
+                           "WWWWW###WWWWW###"
+                           "WWWWW###WWWWW###"
+                           "WWWWWW#WWWWLW###"
+                           "WWWWWWWWWWWWWWW#"
+                           "##WWWWWWWWWWWWLW"
+                           "###WWWWWWWWWWWWW"
+                           "##WWWWWWWWWWWWWW"
+                           "WWWWWWWLWWWWLWW#"
+                           "WWWWWWWWWWWWW###"
+                           "WWWWWWWWWWWWL###"
+                           "WWWWWWWWWWWWW###"
+                           "####WWWWW#######"
+                           "####WWWWW#######"
+                           "#####WWW########");
 
     // difference is less than 2% (error in JPG encoding)
     assert(img->difference(img_ref) < 0.02);
@@ -141,5 +142,10 @@ int main( ) {
     i3.saveAs("tests/new.png");
 
     std::cout << i3;
+
+    ImagePtr img2 = LoadImage( "tests/progtest.jpeg", JPG);
+    ImagePtr img3 = img.copy();
+    assert(img2.get() != img3.get());
+
 
 }

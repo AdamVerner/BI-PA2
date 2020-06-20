@@ -3,6 +3,7 @@
 //
 
 #include "Image_JPG.h"
+#include "Exceptions.h"
 
 std::unique_ptr<JSAMPLE[]> Image_JPG::getRawData( ) {
 
@@ -19,25 +20,19 @@ std::unique_ptr<JSAMPLE[]> Image_JPG::getRawData( ) {
 Image_JPG::Image_JPG( const std::string & filename ) : filename(filename) {
 
     struct jpeg_decompress_struct cinfo{};
-    struct my_error_mgr jerr{};
+    struct jpegErrorManager jerr{};
     FILE * fp;
 
 
     if ((fp = fopen(filename.c_str(), "rb")) == nullptr) {
-        throw std::logic_error("failed to open Image");
+        throw FileException("failed to open Image");
     }
 
     /* Step 1: allocate and initialize JPEG decompression object */
     /* We set up the normal JPEG error routines, then override error_exit. */
     cinfo.err = jpeg_std_error(&jerr.pub);
+    jerr.pub.error_exit = jpegErrorExit;
 
-    /* Establish the setjmp return context for my_error_exit to use. */
-
-    if (setjmp(jerr.setjmp_buffer)) {
-        jpeg_destroy_decompress(&cinfo);
-        fclose(fp);
-        throw std::logic_error("failed to set jump");
-    }
 
     /* Now we can initialize the JPEG decompression object. */
     jpeg_create_decompress (&cinfo);
@@ -147,4 +142,13 @@ void Image_JPG::save( ) {
 void Image_JPG::saveAs( const std::string & fn ) {
     this->filename = fn;
     save();
+}
+
+void Image_JPG::jpegErrorExit( j_common_ptr cinfo ) {
+
+    char what[JMSG_LENGTH_MAX];
+    ( *(cinfo->err->format_message) ) (cinfo, what);
+
+    throw FileException(what);
+
 }

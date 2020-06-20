@@ -22,11 +22,11 @@ target_link_libraries(main jpeg png)
 add_executable(testScaler tests/testScaler.cpp ${sources})
 target_link_libraries(testScaler jpeg png)
 
-add_executable(test3 tests/testImageGetter.cpp ${sources})
-target_link_libraries(test3 jpeg png)
+add_executable(testUtils tests/testUtils.cpp ${sources})
+target_link_libraries(testUtils jpeg png)
 
-add_executable(test6 tests/megaTest.cpp ${sources})
-target_link_libraries(test6 jpeg png)
+add_executable(testImageGetter tests/testImageGetter.cpp ${sources})
+target_link_libraries(testImageGetter jpeg png)
 
 add_executable(test7 tests/testFilters.cpp ${sources})
 target_link_libraries(test7 jpeg png)

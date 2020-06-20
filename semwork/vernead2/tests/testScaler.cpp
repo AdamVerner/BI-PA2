@@ -6,20 +6,22 @@
 #include <sstream>
 #include <cassert>
 
-#include "Scaler/Scaler_BilinearInterpolation.h"
+#include "Plugins/Plugin_Scaler.h"
 #include "Image/Loaders/Loader.h"
-#include "../src/Image/Image.h"
-#include "../src/Filter/Filter_Inverse.h"
-#include "../src/Filter/Filter_LowPass.h"
-#include "../src/Filter/Filter_HighPass.h"
-#include "../src/Filter/Filter_Sharpen.h"
 
 int main(){
 
     ImagePtr img = LoadImage( "examples/kitty.jpg", AUTO);
-    img->applyScaler(Scaler_BilinearInterpolation(150, 150));
+    ImagePtr save = img->copy();
+    std::cout << *img;
 
-    img->saveAs("tests/new.png");
+    img->saveAs("tests/new1.png");
+
+
+    img->applyPlugin(Plugin_Scaler(50, 25));
+
+    img->saveAs("tests/new2.png");
+    save->saveAs("tests/new3.png");
 
     std::cout << *img;
 

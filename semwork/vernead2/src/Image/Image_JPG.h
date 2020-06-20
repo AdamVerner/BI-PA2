@@ -28,10 +28,15 @@ public:
 
 private:
 
-    struct my_error_mgr {
+    struct jpegErrorManager {
         struct jpeg_error_mgr pub;    /* "public" fields */
         jmp_buf setjmp_buffer;    /* for return to caller */
     };
+
+    /**
+     * Jpeg lib error handler
+     * */
+    static void jpegErrorExit(j_common_ptr cinfo);
 
     std::unique_ptr<JSAMPLE[]> getRawData( );
     std::string filename;

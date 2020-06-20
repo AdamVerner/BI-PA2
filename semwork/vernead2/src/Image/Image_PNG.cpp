@@ -2,6 +2,7 @@
 // Created by home-6 on 14.06.20.
 //
 
+#include <fstream>
 #include "Image_PNG.h"
 
 Image_PNG::Image_PNG( const std::string & filename ) : filename(filename) {
@@ -11,7 +12,7 @@ Image_PNG::Image_PNG( const std::string & filename ) : filename(filename) {
     try {
 
         // Create png structures we'll use for image Loading
-        if( !(png_ptr = png_create_read_struct( PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr )))
+        if( !(png_ptr = png_create_read_struct( PNG_LIBPNG_VER_STRING, nullptr, pngReadError, pngReadError )))
             throw BaseException( "png_create_read_struct" );
         if( !(info_ptr = png_create_info_struct( png_ptr )))
             throw BaseException( "png_create_info_struct" );
@@ -20,21 +21,22 @@ Image_PNG::Image_PNG( const std::string & filename ) : filename(filename) {
 
         LoadPNG( );
     }
-    catch (std::exception & e) {
+    catch (...) {
         png_destroy_read_struct( &png_ptr, &info_ptr, nullptr );
-        throw;
+        std::rethrow_exception(std::current_exception());
     }
 
     png_destroy_read_struct( &png_ptr, &info_ptr, nullptr );
 
 }
 
+
 void Image_PNG::save( ) {
 
     FILE * fp = fopen(filename.c_str(), "wb");
-    if (!fp) throw FileException("File could not be opened for reading");
+    if (!fp) throw FileException("File could not be opened for writing");
 
-    if( !(png_ptr = png_create_write_struct( PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr )))
+    if( !(png_ptr = png_create_write_struct( PNG_LIBPNG_VER_STRING, nullptr, pngReadError, pngReadError )))
         throw BaseException( "png_create_read_struct" );
     if( !(info_ptr = png_create_info_struct( png_ptr )))
         throw BaseException( "png_create_info_struct" );
@@ -147,6 +149,9 @@ void Image_PNG::normalizePNG( ) {
 }
 
 void Image_PNG::LoadPNG() {
+
+    if(! (std::ifstream(filename).good()))
+        throw FileException("File could not be opened for writing");
 
     /* open file and test for it being a png */
     FILE * fp = fopen(filename.c_str(), "rb");

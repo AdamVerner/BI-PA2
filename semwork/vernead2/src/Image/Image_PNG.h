@@ -46,4 +46,9 @@ private:
      * */
     void LoadPNG();
 
+    /** Throw exception to interrupt the flow*/
+    static inline void pngReadError(png_structp png_ptr, png_const_charp error_msg){
+        throw FileException("Failed reading PNG");
+    }
+
 };
