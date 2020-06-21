@@ -54,8 +54,9 @@ std::ostream & operator<<( std::ostream & os, const Image & img ) {
             os << img.LUTLookup( img.Pixel( x, y ));
             if (x != img.mWidth - 1) os << " "; // TODO instead of printing space, rescale image by ~60%
         }
-        os << std::endl;
+        os << "\n";
     }
+    os.flush();
     return os;
 }
 
@@ -98,6 +99,20 @@ void Image::resizeCanvas( size_t width, size_t height, pixel_t background ) {
     mData = newData;
     mWidth = width;
     mHeight = height;
+
+}
+
+std::vector<size_t> Image::getHistogram(int steps) const {
+    std::vector<size_t> histogram (steps, 0);
+
+    int stepSize = 255/steps;
+
+    for(size_t i = 0; i < mWidth * mHeight; i++){
+        int value = mData[i].getGray() / stepSize;
+        histogram[value]++;
+    }
+
+    return histogram;
 
 }
 

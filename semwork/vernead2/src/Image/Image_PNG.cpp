@@ -1,9 +1,10 @@
 //
-// Created by home-6 on 14.06.20.
+// Created by vernead2 on 14.06.20.
 //
 
 #include <fstream>
 #include "Image_PNG.h"
+#include "FileWrap.h"
 
 Image_PNG::Image_PNG( const std::string & filename ) : filename(filename) {
 
@@ -33,8 +34,7 @@ Image_PNG::Image_PNG( const std::string & filename ) : filename(filename) {
 
 void Image_PNG::save( ) {
 
-    FILE * fp = fopen(filename.c_str(), "wb");
-    if (!fp) throw FileException("File could not be opened for writing");
+    FileWrap fw(filename.c_str(), "wb");
 
     if( !(png_ptr = png_create_write_struct( PNG_LIBPNG_VER_STRING, nullptr, pngReadError, pngReadError )))
         throw BaseException( "png_create_read_struct" );
@@ -43,7 +43,7 @@ void Image_PNG::save( ) {
     if( setjmp( png_jmpbuf( png_ptr )))
         throw BaseException( "Error during init_io" );
 
-    png_init_io(png_ptr, fp);
+    png_init_io(png_ptr, fw.fp);
 
     // Output is 8bit depth, RGBA format.
     png_set_IHDR(
@@ -73,8 +73,6 @@ void Image_PNG::save( ) {
 
     png_write_image(png_ptr, row_pointers.get());
     png_write_end(png_ptr, info_ptr);
-
-    fclose(fp);
 
     png_destroy_write_struct(&png_ptr, &info_ptr);
 
@@ -153,16 +151,10 @@ void Image_PNG::LoadPNG() {
     if(! (std::ifstream(filename).good()))
         throw FileException("File could not be opened for writing");
 
-    /* open file and test for it being a png */
-    FILE * fp = fopen(filename.c_str(), "rb");
-    if (!fp) throw FileException("File could not be opened for reading");
+    FileWrap fw(filename.c_str(), "rb");
 
-    png_init_io(png_ptr, fp);
-
+    png_init_io(png_ptr, fw.fp);
     png_read_info(png_ptr, info_ptr);
-
-    // normalizePNG();
-
     png_read_update_info(png_ptr, info_ptr);
 
 
@@ -186,8 +178,6 @@ void Image_PNG::LoadPNG() {
 
     png_read_image(png_ptr, row_pointers.get());
     png_read_end(png_ptr, info_ptr);
-
-    fclose(fp);
 
     parseRawData( rawData );
 

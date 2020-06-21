@@ -13,9 +13,9 @@
  *
  *  // TODO add 2x scaling that does not produce edge blur
  * */
-class Plugin_Scaler: public Plugin {
+class Plugin_Resize: public Plugin {
 public:
-    explicit Plugin_Scaler( int width, int height ): Plugin( "Scaler" ), mReqWidth(width), mReqHeight(height) {}
+    explicit Plugin_Resize( int width, int height ): Plugin( "Scaler" ), mReqWidth( width), mReqHeight( height) {}
 
     void processImage( Image & img ) const override;
 

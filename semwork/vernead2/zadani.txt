@@ -28,7 +28,51 @@ Program bude mít jednoduché možnosti přehrávání animace (zastavit, spusti
 ```
 
 ## Specifikace
-Nástroj je určen k terminálovému použití. Program v aktuální verzi bude operovat v grayscale spektru. 
+Nástroj je určen k terminálovému použití.
+Terminálové zobrazení funguje pouze v černobílé barvě, ale vnitřní reprezentace, načítání, operace a následné ukládání podporuje RGBA.
+Program umí pracovat s formáty JPG, PNG a ASCII, formát ascii je popsán níže.
+
+V nabídce jsou dvě možnosti interakce, CMD a interaktivní.
+
+### Interaktivní mód
+
+
+### CMD mód.
+Tento mód je určen k jednoduché editaci obrázků a je vhodný na operace nad většími daty.
+Typicky v shell scriptu.
+
+Například pro rozmazání všech PNG obrázků v adresáři pomocí lowpass modulu můžeme použít:
+```shell
+find ./ -type f - name '*.png' - exec ./vernead2 -f lowpass {} {}
+```
+
+Nápověda programu:
+```
+Usage: vernead2 [OPTIONS] INPUT OUTPUT
+Example: -filter=grayscale -scale=150:100 -rotate=75:50:90 examples/kitty.jpg tmp/newImage.png
+
+OPTIONS:
+  -I, --Interactive      Launch interactive mode. All other switches are ignored
+  -f, --filter=NAME     Specify filter for image. see "Format" chapter for more
+  -r, --rotate=DEG:x:y  Rotate Image by specified angle in degrees around origin X:Y
+  -s, --resize=x:y      Resize the image to specified size
+  -i, --info            Prints all known info about image
+
+
+Filters do not have any parameters, they are specified by their name
+Some of the available filters are:
+  - inverse
+  - sharpen
+  - grayscale
+  - lowpass
+  - highpass
+
+When OUTPUT is '-', image is printed to stdout.
+
+Report bugs to: bugs@averner.cz
+averner2 home page: <https://github.com/AdamVerner/CVUT-PA2/tree/master/semwork/vernead2/>
+
+```
 
 ### Interface
 Program bude operovat ve dvou módech. Interaktivním a CMD móodu. 

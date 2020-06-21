@@ -16,20 +16,11 @@ include_directories(src/)
 file(GLOB_RECURSE sources "src/*.cpp")
 list(REMOVE_ITEM sources "${CMAKE_SOURCE_DIR}/src/Interface/cmd.cpp")
 
-add_executable(main src/Interface/cmd.cpp ${sources})
+add_executable(main src/Interface/main.cpp ${sources})
 target_link_libraries(main jpeg png)
 
 add_executable(testScaler tests/testScaler.cpp ${sources})
 target_link_libraries(testScaler jpeg png)
 
-add_executable(testUtils tests/testUtils.cpp ${sources})
-target_link_libraries(testUtils jpeg png)
-
 add_executable(testImageGetter tests/testImageGetter.cpp ${sources})
 target_link_libraries(testImageGetter jpeg png)
-
-add_executable(test7 tests/testFilters.cpp ${sources})
-target_link_libraries(test7 jpeg png)
-
-add_executable(test9 tests/testPixels.cpp ${sources})
-target_link_libraries(test9 jpeg png)

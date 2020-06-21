@@ -31,17 +31,19 @@ private:
     void print( std::ostream & os) const override { os << "Reading File failed: " << this->what() << std::endl; }
 };
 
-class ImageFormatException : public FileException{
-
-};
-
-class UnsupportedFileFormatException : public ImageFormatException{
-
-};
-
 class InvalidInputException : public BaseException{
+public:
+    explicit InvalidInputException(const std::string & what): BaseException(what) { }
 
+private:
+    void print( std::ostream & os) const override { os << "Invalid Input: " << this->what() << std::endl; }
 };
 
+class InvalidParam: public InvalidInputException{
+public:
+    explicit InvalidParam(const std::string & what): InvalidInputException(what) { }
+private:
+    void print( std::ostream & os) const override { os << "Parsing Failed: " << this->what() << std::endl; }
+};
 
 

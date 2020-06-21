@@ -39,7 +39,7 @@ void testConstructionAndMerge( ) {
 
 void testAsciiParser( ) {
 
-    ImagePtr img = LoadImage( "tests/img.ascii", ASCII );
+    ImagePtr img = LoadImage( "tests/img.ascii" );
 
 
     std::stringstream oss;
@@ -68,13 +68,13 @@ void testPNGParser(){
 
     std::stringstream oss1, oss2;
 
-    ImagePtr img = LoadImage( "tests/images/progtest.png", PNG );
+    ImagePtr img = LoadImage( "tests/images/progtest.png" );
     oss1 << *img;
 
     img.get()->save();
 
     // test that the saved file will be loaded as same.
-    ImagePtr new_img = LoadImage( "tests/images/progtest.png", PNG );
+    ImagePtr new_img = LoadImage( "tests/images/progtest.png" );
     oss2 << *new_img;
 
     assert(oss1.str() == oss2.str());
@@ -105,7 +105,7 @@ void testPNGParser(){
 
 void testJPGParser(){
 
-    ImagePtr img = LoadImage( "tests/progtest.jpeg", JPG);
+    ImagePtr img = LoadImage( "tests/progtest.jpeg" );
 
     std::cout << *img;
     Image img_ref( 16, 16, "################"
@@ -143,7 +143,7 @@ int main( ) {
 
     std::cout << i3;
 
-    ImagePtr img2 = LoadImage( "tests/progtest.jpeg", JPG);
+    ImagePtr img2 = LoadImage( "tests/progtest.jpeg" );
     ImagePtr img3 = img.copy();
     assert(img2.get() != img3.get());
 

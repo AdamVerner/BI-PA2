@@ -4,14 +4,21 @@
 
 #pragma once
 
+#include <vector>
+
 #include "Image/Image.h"
 
-class CSequence{
+class Sequence{
 public:
-    CSequence();
+    Sequence();
 
     void push_back(const Image &);
     Image & pop_back(const Image &);
     Image & operator[](size_t);
+    void insert(size_t);
+    void size();
+
+private:
+    std::vector<ImagePtr> images;
 
 };

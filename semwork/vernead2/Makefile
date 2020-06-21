@@ -31,6 +31,7 @@ clean:
 	rm -rf doc/ zip_build/
 
 doc:
+	cp zadani.txt src/Readme.md
 	doxygen Doxyfile
 
 zip: clean

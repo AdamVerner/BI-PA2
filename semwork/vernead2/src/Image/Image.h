@@ -76,9 +76,16 @@ public:
     virtual void save() {};
     virtual void saveAs(const std::string & ) {};
 
+    /** Create new copy of class */
     inline virtual std::shared_ptr<Image> copy() const{ return std::make_shared<Image>(*this); }
 
+    /** Resize canvas to specific size. if enlarging, set background. */
     void resizeCanvas(size_t width, size_t height, pixel_t background = 0);
+
+    /** Generate histogram.
+     * @returns vector of pixel count.
+     * */
+    std::vector<size_t> getHistogram(int steps = 255) const;
 
 
     size_t mWidth = 0;   /**< image width */

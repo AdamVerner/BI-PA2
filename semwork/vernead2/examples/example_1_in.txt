@@ -1,0 +1,13 @@
+1
+4
+examples/Images/duckass.JPG
+2
+2
+6
+examples/new.jpg
+1
+6
+examples/new.png
+2
+10
+10

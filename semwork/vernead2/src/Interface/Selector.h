@@ -15,6 +15,9 @@
 class Selector{
 public:
 
+    Selector(std::ostream & out): out(out) { }
+    Selector(): Selector(std::cout) {}
+
     /** Add an option prompt.
      * @param id id the user will be able to select
      * @param name description visible to the user
@@ -32,6 +35,9 @@ private:
 
     /** Print available options to stdout */
     void printPrompt(bool intro);
+
+    std::ostream & out;
+
 };
 
 

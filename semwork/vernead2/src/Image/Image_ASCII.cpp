@@ -14,8 +14,9 @@ void Image_ASCII::LoadFile( const std::string & filename ) {
 
     if (! src.is_open()) throw FileException("Cannot open file " + filename);
 
-    char header [6];
-    src.read((char*) header, sizeof(header));
+    char header [7];
+    memset(header, 0, sizeof( header ));
+    src.read((char*) header, 6);
 
     if(strncmp("ASCII\n", header, 6) != 0){
         throw FileException("Missing header");

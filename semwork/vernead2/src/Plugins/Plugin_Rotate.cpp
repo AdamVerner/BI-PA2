@@ -4,7 +4,11 @@
 
 #include "Plugin_Rotate.h"
 
+
 void Plugin_Rotate::processImage( Image & img ) const {
+
+    if (mDirection == 0)
+        return;
 
     auto imgCopy = img.copy();
 
@@ -13,16 +17,16 @@ void Plugin_Rotate::processImage( Image & img ) const {
     double cosf = cos(radians);
 
     // rotation
-    for (size_t x = 0; x < img.getWidth(); x++) {
-        for (size_t y = 0; y < img.getHeight(); y++) {
+    for (int x = 0; x < (int)img.getWidth(); x++) {
+        for (int y = 0; y < (int)img.getHeight(); y++) {
 
-            long double xf = x - mXCenter;
-            long double yf = y - mYCenter;
+            double xf = x - (int)mXCenter;
+            double yf = y - (int)mYCenter;
 
-            size_t xx = (+xf * cosf - yf * sinf + mXCenter);
-            size_t yy = (+xf * sinf + yf * cosf + mYCenter);
+            int xx = (+xf * cosf - yf * sinf + (int)mXCenter);
+            int yy = (+xf * sinf + yf * cosf + (int)mYCenter);
 
-            if (xx >= 0 && xx < img.getWidth() && yy >= 0 && yy < img.getHeight()) {
+            if (xx >= 0 && xx < (int)imgCopy->getWidth() && yy >= 0 && yy < (int)imgCopy->getHeight()) {
                 img.Pixel(x,y) = imgCopy->Pixel(xx, yy);
             }
             else

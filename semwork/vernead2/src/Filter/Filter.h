@@ -6,6 +6,7 @@
 
 #pragma once
 
+
 #include "dataTypes.h"
 class Image;
 
@@ -18,6 +19,9 @@ class Image;
  * If `m_usePixelBlock` is set as true, the filter will use `processPixelBox` method to evaluate the filter.
  * @see SidePolicy
  * otherwise the `processPixel` is used.
+ *
+ * When creating new Filters, the class shuld be reference in the menu as option.
+ * @see
  *
  * */
 class Filter{
