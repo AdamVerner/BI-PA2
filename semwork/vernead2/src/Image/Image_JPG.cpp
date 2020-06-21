@@ -2,9 +2,9 @@
 // Created by vernead2 on 14.06.20.
 //
 
-#include <Constants.h>
+#include "../Exceptions.h"
+#include "../Constants.h"
 #include "Image_JPG.h"
-#include "Exceptions.h"
 #include "FileWrap.h"
 
 std::unique_ptr<JSAMPLE[]> Image_JPG::getRawData( ) {

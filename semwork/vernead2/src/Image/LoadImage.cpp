@@ -4,7 +4,6 @@
 
 
 #include <string>
-#include "LoadImage.h"
 
 #include "Image.h"
 #include "Image_PNG.h"

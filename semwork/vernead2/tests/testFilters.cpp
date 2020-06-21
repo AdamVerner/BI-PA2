@@ -3,12 +3,10 @@
 //
 
 #include <iostream>
-#include <sstream>
 #include <cassert>
-#include <Image/Loaders/Loader.h>
-#include <Filter/Filter_Grayscale.h>
+
+#include "../src/Image/LoadImage.h"
 #include "../src/Image/Image.h"
-#include "../src/Filter/Filter_Inverse.h"
 #include "../src/Filter/Filter_LowPass.h"
 #include "../src/Filter/Filter_HighPass.h"
 #include "../src/Filter/Filter_Sharpen.h"

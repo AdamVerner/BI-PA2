@@ -6,6 +6,7 @@
 
 #include <map>
 #include <functional>
+#include <climits>
 
 /**
  * Utility to prompt user for multiple selection.
@@ -28,7 +29,7 @@ public:
     /** Prompt the user with previously added options.
      * The selected option is executed. */
     void prompt(bool intro = true);
-    void prompt(const std::string & prompt);
+    void promptCustom( const std::string & prompt);
 
 private:
     std::map<int, std::pair<std::string, const std::function<void(void)>>> options;  /**< Option store */
@@ -47,3 +48,7 @@ private:
  * @returns false on failure
  * */
 bool promptInteger( int & out );
+
+
+/** Prompt user for integer and range verify it. */
+int PromptIntegerValue( int min = INT_MIN, int max = INT_MAX);

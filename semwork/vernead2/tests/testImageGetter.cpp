@@ -8,7 +8,7 @@
 
 #include "../src/dataTypes.h"
 #include "../src/Image/Image.h"
-#include "../src/Image/Loaders/Loader.h"
+#include "../src/Image/LoadImage.h"
 
 void testConstructionAndMerge( ) {
     Image img2( 3, 3, " # ### # " );

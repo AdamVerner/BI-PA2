@@ -3,11 +3,9 @@
 //
 
 #include <iostream>
-#include <sstream>
-#include <cassert>
 
-#include "Plugins/Plugin_Resize.h"
-#include "Image/Loaders/Loader.h"
+#include "../src/Image/LoadImage.h"
+#include "../src/Plugins/Plugin_Resize.h"
 
 int main(){
 

@@ -11,9 +11,9 @@
 #include <memory>
 #include <iostream>
 
-#include "dataTypes.h"
-#include "Filter/Filter.h"
-#include "Plugins/Plugin.h"
+#include "../dataTypes.h"
+#include "../Filter/Filter.h"
+#include "../Plugins/Plugin.h"
 
 enum ImageType{ JPG, PNG, ASCII, AUTO, UNKNOWN };
 

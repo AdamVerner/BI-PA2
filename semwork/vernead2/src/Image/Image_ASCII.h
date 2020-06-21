@@ -4,8 +4,8 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <Exceptions.h>
 
+#include "../Exceptions.h"
 #include "Image.h"
 
 class Image_ASCII: public Image{

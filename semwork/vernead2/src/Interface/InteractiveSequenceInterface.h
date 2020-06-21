@@ -7,7 +7,6 @@
 #include <list>
 #include <queue>
 
-#include "Sequence/Sequence.h"
 #include "InteractiveImageInterface.h"
 
 class InteractiveSequenceInterface{

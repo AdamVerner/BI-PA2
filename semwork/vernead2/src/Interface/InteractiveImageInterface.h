@@ -11,13 +11,13 @@
 
 #include <memory>
 
-#include <Filter/Filter.h>
-#include <Plugins/Plugin.h>
-#include <Image/Image.h>
-#include <Exceptions.h>
-#include <Image/Image_JPG.h>
-#include <Image/Image_PNG.h>
-#include <Image/Image_ASCII.h>
+#include "../Filter/Filter.h"
+#include "../Plugins/Plugin.h"
+#include "../Image/Image.h"
+#include "../Exceptions.h"
+#include "../Image/Image_JPG.h"
+#include "../Image/Image_PNG.h"
+#include "../Image/Image_ASCII.h"
 #include "Selector.h"
 
 /**

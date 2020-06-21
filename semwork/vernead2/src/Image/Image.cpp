@@ -4,7 +4,8 @@
 
 #include <cmath>
 #include <ostream>
-#include <Exceptions.h>
+
+#include "../Exceptions.h"
 #include "Image.h"
 
 Image::Image( size_t width, size_t height) {
@@ -14,7 +15,7 @@ Image::Image( size_t width, size_t height) {
 }
 
 char Image::LUTLookup( const pixel_t & idx ) const {
-    size_t max = pixel_t(-1).getGray();
+    size_t max = pixel_t(UINT8_MAX).getGray();
     size_t step = mLUT.length();
     size_t gray = idx.getGray();
     return mLUT[gray * step / max ];
@@ -73,8 +74,8 @@ Image::Image( size_t width, size_t height, const char * src ) {
 pixel_t Image::reverseLUTLookup( char c ) const {
     // TODO optimize by pre-calculating the reverse lookup table(or save as map)
 
-    uint8_t max = pixel_t(255).getGray();
-    uint8_t lut_len = mLUT.length();
+    uint8_t max = pixel_t(UINT8_MAX).getGray();
+    uint8_t lut_len = mLUT.length(); // mLut is max 255 long
 
     uint8_t inc =  std::ceil((double)max / lut_len);
     uint8_t val = inc / 2; // start in the middle of the range

@@ -2,6 +2,8 @@
 // Created by vernead2 on 20.06.20.
 //
 
+#include <iostream>
+
 #include "CMDInterface.h"
 
 int main( int argc, char ** argv ){

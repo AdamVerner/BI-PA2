@@ -7,7 +7,7 @@
 #pragma once
 
 
-#include "dataTypes.h"
+#include "../dataTypes.h"
 class Image;
 
 /**
@@ -20,7 +20,7 @@ class Image;
  * @see SidePolicy
  * otherwise the `processPixel` is used.
  *
- * When creating new Filters, the class shuld be reference in the menu as option.
+ * When creating new Filters, the class should be reference in the menu as option.
  * @see
  *
  * */

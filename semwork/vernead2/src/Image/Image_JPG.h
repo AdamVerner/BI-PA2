@@ -11,9 +11,8 @@
 #include <jpeglib.h>
 #include <functional>
 
-#include "Exceptions.h"
+#include "../Exceptions.h"
 #include "Image.h"
-#include <type_traits>
 
 class Image_JPG: public Image{
 public:
@@ -28,8 +27,6 @@ public:
     std::shared_ptr<Image> copy() const override{ return std::make_shared<Image_JPG>(*this); }
 
 private:
-
-    void load();
 
     struct jpegErrorManager {
         struct jpeg_error_mgr pub;    /* "public" fields */

@@ -1,42 +1,59 @@
-#Zde bude funkcni Makefile.
-SHELL = /bin/bash
-CXX = g++ -c
-LD = g++
-CXX_FLAGS = -Wall -pedantic -Wno-long-long -O2 -Werror -Wextra -std=c++11
-LD_FLAGS = -ljpeg -lpng
+TARGET = vernead2
 
-default_target: all
+CXX = g++
+MKDIR = mkdir -p
+
+CXXFLAGS = -Wall -pedantic -Wextra -std=c++14
+
+SOURCE_DIR = src
+BUILD_DIR = build
+
+SOURCES = $(wildcard $(SOURCE_DIR)/*.cpp)
+HEADERS = $(wildcard $(SOURCE_DIR)/*.h)
+
+OBJECTS = $(SOURCES:$(SOURCE_DIR)/%.cpp=$(BUILD_DIR)/%.o)
+
+
+.PHONY: all
+all: compile doc
+	@echo "Finished..."
+
 
 .PHONY: compile
-compile: vernead2
-	@echo done
-
-src/cmd.o:	src/cmd.cpp src/include/cmd.h
-
-src/Image.o: src/Image.cpp src/include/Image.h src/include/Filter.h src/include/Filter.h
+compile: $(TARGET)
+	@echo "Compile..."
 
 
-clean:
-	rm -f vernead2 src/*.o vernead2.zip
-	rm -rf doc/ zip_build/
+.PHONY: run
+run: $(TARGET)
+	./$(TARGET)
 
 
-doc: Doxyfile  $(wildcard src/*)
+$(TARGET): $(OBJECTS)
+	$(CXX) $^ -o $@
+
+
+$(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.cpp
+	$(MKDIR) $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $< -c -o $@
+
+
+doc: Doxyfile README.md $(HEADERS)
 	doxygen Doxyfile
 
+EXAMPLES = $(wildcard examples/*)
+$(TARGET).zip: README.md zadani.txt prohlaseni.txt Makefile Doxyfile $(HEADERS) $(SOURCES) $(EXAMPLES)
+	mkdir -p .archive/$(TARGET)/
+	cp -r README.md zadani.txt prohlaseni.txt Makefile Doxyfile src/ examples/ .archive/$(TARGET)/
+	cd .archive/; zip -r ../$(TARGET).zip $(TARGET)/
+	rm -r .archive/
 
-zip: clean
-	mkdir -p zip_build/vernead2
-	cp -r src examples tests zadani.txt Makefile prohlaseni.txt Doxyfile zip_build/vernead2/
-	cd zip_build; zip -r ../vernead2 vernead2/
+.PHONY: clean
+clean:
+	rm -rf $(TARGET) $(TARGET).zip doc/ .archive/ $(BUILD_DIR)/ 2>/dev/null
 
 
-lines:
-	 wc src/*.cpp src/include/*.h -l
-
-
-.PHONY: clean compile zip
-
+# Dependencies
 
 build/testFilters.o: tests/testFilters.cpp tests/../src/Image/LoadImage.h \
  tests/../src/Image/Image.h tests/../src/Image/../dataTypes.h \

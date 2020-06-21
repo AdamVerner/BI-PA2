@@ -7,7 +7,7 @@
 #include <string>
 #include <utility>
 
-#include "dataTypes.h"
+#include "../dataTypes.h"
 class Image;
 
 /**Image editing plugin base class.

@@ -24,3 +24,9 @@ target_link_libraries(testScaler jpeg png)
 
 add_executable(testImageGetter tests/testImageGetter.cpp ${sources})
 target_link_libraries(testImageGetter jpeg png)
+
+add_executable(testPixels tests/testPixels.cpp ${sources})
+target_link_libraries(testScaler jpeg png)
+
+add_executable(testFilters tests/testFilters.cpp ${sources})
+target_link_libraries(testFilters jpeg png)

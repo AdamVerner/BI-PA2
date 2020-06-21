@@ -2,12 +2,12 @@
 // Created by vernead2 on 06.06.20.
 //
 
-#include "Plugins/Plugin_Resize.h"
+#include "Plugin_Resize.h"
 
 pixel_t Plugin_Resize::getBilinearPixel( const Image & img, double x, double y ) {
 
-    size_t xi = (int)x;
-    size_t yi = (int)y;
+    auto xi = (size_t)x;
+    auto yi = (size_t)y;
     double xf = x - xi;
     double yf = y - yi;
 

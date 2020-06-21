@@ -65,7 +65,7 @@ struct pixel_t{
         r = r/2 + other.r/2;
         g = g/2 + other.g/2;
         b = b/2 + other.b/2;
-        a = a/2.0 + other.a/2.0;
+        a = a/2 + other.a/2;
     }
 
 

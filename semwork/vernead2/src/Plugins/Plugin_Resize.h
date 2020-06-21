@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "dataTypes.h"
+#include "../dataTypes.h"
 #include "Plugin.h"
-#include "Image/Image.h"
+#include "../Image/Image.h"
 
 /** Plugin for image scaling
  *  https://en.wikipedia.org/wiki/Bilinear_interpolation
@@ -15,7 +15,7 @@
  * */
 class Plugin_Resize: public Plugin {
 public:
-    explicit Plugin_Resize( int width, int height ): Plugin( "Scaler" ), mReqWidth( width), mReqHeight( height) {}
+    explicit Plugin_Resize( ssize_t width, ssize_t height ): Plugin( "Scaler" ), mReqWidth( width), mReqHeight( height) {}
 
     void processImage( Image & img ) const override;
 

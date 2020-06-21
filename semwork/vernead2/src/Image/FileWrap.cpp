@@ -2,7 +2,7 @@
 // Created by home-6 on 21.06.20.
 //
 
-#include <Exceptions.h>
+#include "../Exceptions.h"
 #include "FileWrap.h"
 
 FileWrap::FileWrap( const char * f, const char * flags ) {

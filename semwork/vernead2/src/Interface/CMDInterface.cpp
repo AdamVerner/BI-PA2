@@ -2,24 +2,22 @@
 // Created by vernead2 on 20.06.20.
 //
 
-#include <iostream>
 #include <getopt.h>
 
-#include <Constants.h>
-#include <Plugins/Plugin_Resize.h>
-#include <Plugins/Plugin_Rotate.h>
-#include <algorithm>
-#include <Filter/Filter_Edge.h>
-#include <Filter/Filter_Grayscale.h>
-#include <Filter/Filter_HighPass.h>
-#include <Filter/Filter_Inverse.h>
-#include <Filter/Filter_LowPass.h>
-#include <Filter/Filter_Sharpen.h>
-#include <Exceptions.h>
-#include <Image/Image_JPG.h>
-#include <Image/Image_PNG.h>
-#include <Image/LoadImage.h>
+#include "../Exceptions.h"
+#include "../Constants.h"
 
+#include "../Plugins/Plugin_Resize.h"
+#include "../Plugins/Plugin_Rotate.h"
+#include "../Filter/Filter_Edge.h"
+#include "../Filter/Filter_Grayscale.h"
+#include "../Filter/Filter_HighPass.h"
+#include "../Filter/Filter_Inverse.h"
+#include "../Filter/Filter_LowPass.h"
+#include "../Filter/Filter_Sharpen.h"
+#include "../Image/Image_JPG.h"
+#include "../Image/Image_PNG.h"
+#include "../Image/LoadImage.h"
 #include "CMDInterface.h"
 #include "InteractiveImageInterface.h"
 #include "InteractiveSequenceInterface.h"
@@ -113,9 +111,9 @@ int CMDInterface::run( ) {
         out << std::endl;
 
         Selector s;
-        s.Add(1, "Edit Image", [&](){ InteractiveImageInterface().run(); });
-        s.Add(3, "Create Image sequence", [](){ InteractiveSequenceInterface().run(); });
-        s.Add(10, "Exit", [](){});
+        s.Add(1, "Edit Image", [&]{ InteractiveImageInterface().run(); });
+        s.Add(3, "Create Image sequence", []{ InteractiveSequenceInterface().run(); });
+        s.Add(10, "Exit", []{});
         s.prompt();
         return 0;
     }
@@ -171,7 +169,7 @@ void CMDInterface::printImageInfo( ) {
 
     out << "Histogram:" << std::endl;
     for(const auto & a: img->getHistogram(10)) {
-        size_t starts = std::log2(a + 1);
+        size_t starts = (size_t)std::log2(a + 1);
         out << "> " << std::string(starts, '-') << std::endl;
     }
 }

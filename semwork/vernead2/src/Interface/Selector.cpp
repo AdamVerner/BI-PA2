@@ -27,10 +27,9 @@ void Selector::prompt( bool intro ) {
 }
 
 
-void Selector::prompt( const std::string & prompt ) {
+void Selector::promptCustom( const std::string & prompt ) {
     std::cout << prompt;
     this->prompt( false);
-
 }
 
 void Selector::printPrompt( bool intro ) {
@@ -51,4 +50,11 @@ bool promptInteger( int & out ) {
         return false;
     }
     return true;
+}
+
+int PromptIntegerValue( int min, int max ) {
+    int value;
+    while( !promptInteger( value ) || value < min || value > max )
+        std::cout << "Invalid value." << std::endl;
+    return value;
 }

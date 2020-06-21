@@ -24,6 +24,9 @@ void Image_ASCII::LoadFile( const std::string & filename ) {
 
     // first line is LUT
     getline(src, mLUT, '\n');
+    if(mLUT.size() > 256)
+        throw FileException("Missing header");
+
 
     // TODO test mLUT
     std::string tmp;
@@ -43,7 +46,7 @@ void Image_ASCII::LoadFile( const std::string & filename ) {
     mHeight = (end - current + mWidth + 1) / (mWidth + 1);
 
     // prepare data so that if they're valid, we can just move them.
-    std::vector<pixel_t> stageData (mWidth * mHeight);
+    std::vector<pixel_t> stageData (mHeight * mWidth, 0);
 
     // process tmp line
     for(size_t x = 0; x < mWidth; x ++) {

@@ -5,7 +5,7 @@
 #include <stdexcept>
 
 #include "Filter.h"
-#include "Image/Image.h"
+#include "../Image/Image.h"
 
 imgData_t Filter::generatePixelBlock( Image & img, size_t img_x, size_t img_y) const {
 

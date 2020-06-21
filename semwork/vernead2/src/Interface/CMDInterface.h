@@ -5,9 +5,10 @@
 #pragma once
 
 #include <memory>
-#include <Filter/Filter.h>
-#include <Plugins/Plugin.h>
-#include <Image/Image.h>
+
+#include "../Filter/Filter.h"
+#include "../Plugins/Plugin.h"
+#include "../Image/Image.h"
 
 /**
  * Terminal Interface. If requested hands off execution to InteractiveImageInterface
