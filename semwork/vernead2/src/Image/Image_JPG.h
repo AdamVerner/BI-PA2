@@ -14,6 +14,9 @@
 #include "../Exceptions.h"
 #include "Image.h"
 
+/** Image JPG
+ * uses libjpeg to load data from JPEG image.
+ * */
 class Image_JPG: public Image{
 public:
 
@@ -28,6 +31,7 @@ public:
 
 private:
 
+    /** Custom error manager for libjpeg */
     struct jpegErrorManager {
         struct jpeg_error_mgr pub;    /* "public" fields */
         jmp_buf setjmp_buffer;    /* for return to caller */
@@ -44,12 +48,17 @@ private:
 
     static std::shared_ptr<std::FILE> make_file(const char * f, const char * flags);
 
+    /** wrapper around jpeg_decompress_struct.
+     * jpeglib does dynamic alocation on its side, but we need to make sure it gets destroyed */
     struct JPGDecWrap{
         explicit JPGDecWrap( jpegErrorManager & );
         ~JPGDecWrap();
         jpeg_decompress_struct cinfo;
     };
 
+    /** wrapper around jpeg_compress_struct.
+     *@see JPGDecWrap
+     * */
     struct JPGComWrap{
         explicit JPGComWrap( jpegErrorManager & );
         ~JPGComWrap();

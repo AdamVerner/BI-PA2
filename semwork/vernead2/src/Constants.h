@@ -6,3 +6,4 @@
 
 #define FILTER_DELIM ':'
 #define JPG_QUALITY 95
+#define DEFAULT_LUT "#@WLIoji+;:'\"_. "

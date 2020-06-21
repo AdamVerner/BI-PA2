@@ -28,7 +28,7 @@ void Selector::prompt( bool intro ) {
 
 
 void Selector::promptCustom( const std::string & prompt ) {
-    std::cout << prompt;
+    std::cout << prompt << std::endl;
     this->prompt( false);
 }
 

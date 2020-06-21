@@ -1,0 +1,469 @@
+Welcome to 'vernead2'
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+You've choose an interactive mode, you will be assisted in Editing images or creating sequences of images
+
+Please select what do you want to do:
+  (1) Edit Image
+  (3) Create Image sequence
+ (10) Exit
+Your selection?
+'Create Image sequence' selected.
+There are no frames in your sequence.
+Start by inserting new frame
+Please select what do you want to do:
+  (1) Insert frame
+ (10) Return
+Your selection?
+'Insert frame' selected.
+Do you want to create new Image or open an existing one?  (1) NEW
+  (4) Existing
+Your selection?
+'Existing' selected.
+Location: 
+What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Plugins' selected.
+  (1) Rotate
+  (2) Scale
+Your selection?
+'Rotate' selected.
+Angle: What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Return' selected.
+Index to insert at (0-0): 
+There is 1 frame in your sequence
+Please select what do you want to do:
+  (1) Insert frame
+  (3) Remove frame
+  (4) Edit frame
+  (5) Play sequence
+ (10) Return
+Your selection?
+'Insert frame' selected.
+Do you want to create new Image or open an existing one?  (1) NEW
+  (4) Existing
+Your selection?
+'Existing' selected.
+Location: 
+What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Plugins' selected.
+  (1) Rotate
+  (2) Scale
+Your selection?
+'Rotate' selected.
+Angle: What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Return' selected.
+Index to insert at (0-1): 
+There are currently 2 frames in your sequence
+Please select what do you want to do:
+  (1) Insert frame
+  (2) Move frame
+  (3) Remove frame
+  (4) Edit frame
+  (5) Play sequence
+ (10) Return
+Your selection?
+'Insert frame' selected.
+Do you want to create new Image or open an existing one?  (1) NEW
+  (4) Existing
+Your selection?
+'Existing' selected.
+Location: 
+What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Plugins' selected.
+  (1) Rotate
+  (2) Scale
+Your selection?
+'Rotate' selected.
+Angle: What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Return' selected.
+Index to insert at (0-2): 
+There are currently 3 frames in your sequence
+Please select what do you want to do:
+  (1) Insert frame
+  (2) Move frame
+  (3) Remove frame
+  (4) Edit frame
+  (5) Play sequence
+ (10) Return
+Your selection?
+'Insert frame' selected.
+Do you want to create new Image or open an existing one?  (1) NEW
+  (4) Existing
+Your selection?
+'Existing' selected.
+Location: 
+What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Plugins' selected.
+  (1) Rotate
+  (2) Scale
+Your selection?
+'Rotate' selected.
+Angle: What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Return' selected.
+Index to insert at (0-3): 
+There are currently 4 frames in your sequence
+Please select what do you want to do:
+  (1) Insert frame
+  (2) Move frame
+  (3) Remove frame
+  (4) Edit frame
+  (5) Play sequence
+ (10) Return
+Your selection?
+'Insert frame' selected.
+Do you want to create new Image or open an existing one?  (1) NEW
+  (4) Existing
+Your selection?
+'Existing' selected.
+Location: 
+What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Plugins' selected.
+  (1) Rotate
+  (2) Scale
+Your selection?
+'Rotate' selected.
+Angle: What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Return' selected.
+Index to insert at (0-4): 
+There are currently 5 frames in your sequence
+Please select what do you want to do:
+  (1) Insert frame
+  (2) Move frame
+  (3) Remove frame
+  (4) Edit frame
+  (5) Play sequence
+ (10) Return
+Your selection?
+'Insert frame' selected.
+Do you want to create new Image or open an existing one?  (1) NEW
+  (4) Existing
+Your selection?
+'Existing' selected.
+Location: 
+What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Plugins' selected.
+  (1) Rotate
+  (2) Scale
+Your selection?
+'Rotate' selected.
+Angle: What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Return' selected.
+Index to insert at (0-5): 
+There are currently 6 frames in your sequence
+Please select what do you want to do:
+  (1) Insert frame
+  (2) Move frame
+  (3) Remove frame
+  (4) Edit frame
+  (5) Play sequence
+ (10) Return
+Your selection?
+'Insert frame' selected.
+Do you want to create new Image or open an existing one?  (1) NEW
+  (4) Existing
+Your selection?
+'Existing' selected.
+Location: 
+What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Plugins' selected.
+  (1) Rotate
+  (2) Scale
+Your selection?
+'Rotate' selected.
+Angle: What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Return' selected.
+Index to insert at (0-6): 
+There are currently 7 frames in your sequence
+Please select what do you want to do:
+  (1) Insert frame
+  (2) Move frame
+  (3) Remove frame
+  (4) Edit frame
+  (5) Play sequence
+ (10) Return
+Your selection?
+'Insert frame' selected.
+Do you want to create new Image or open an existing one?  (1) NEW
+  (4) Existing
+Your selection?
+'Existing' selected.
+Location: 
+What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Plugins' selected.
+  (1) Rotate
+  (2) Scale
+Your selection?
+'Rotate' selected.
+Angle: What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Return' selected.
+Index to insert at (0-7): 
+There are currently 8 frames in your sequence
+Please select what do you want to do:
+  (1) Insert frame
+  (2) Move frame
+  (3) Remove frame
+  (4) Edit frame
+  (5) Play sequence
+ (10) Return
+Your selection?
+'Play sequence' selected.
+Select time between each frame [ms]
+[H[2J[3JImage <16 x 16>
+@ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @
+. . . . . @ @ @ . . . . . @ @ @
+. . . . . @ @ @ . . . . . @ @ @
+. . . . . @ @ @ . . . . . @ @ @
+. . . . . . @ . . . . . . @ @ @
+. . . . . . . . . . . . . . . @
+@ @ . . . . . . . . . . . . . .
+@ @ @ . . . . . . . . . . . . .
+@ @ . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . @
+. . . . . . . . . . . . . @ @ @
+. . . . . . . . . . . . . @ @ @
+. . . . . . . . . . . . . @ @ @
+@ @ @ @ . . . . . @ @ @ @ @ @ @
+@ @ @ @ . . . . . @ @ @ @ @ @ @
+@ @ @ @ @ . . . @ @ @ @ @ @ @ @
+[H[2J[3JImage <16 x 16>
+@ @ @ @ @ @ @ . @ @ @ @ @ @ @ @
+@ @ @ @ @ @ . . . @ @ @ @ @ @ @
+@ @ @ @ @ . . . . . . . . . @ @
+@ @ @ @ . . . . . . . . . . . @
+@ @ @ @ . . . . . . . . . . @ @
+@ @ @ @ @ . . . . . . . . . @ @
+@ . @ @ @ . . . . . . . . . @ @
+. . . @ . . . . . . . . . . . @
+. . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . @
+. . . . . . . . . . . . . . @ @
+. . . . . . . . . . . . . @ @ @
+. . @ @ . . . . . . . . . . @ @
+@ @ @ @ @ . . . . . . . . @ @ @
+@ @ @ @ . . . . . . . . . . @ @
+@ @ @ . . . . . . @ . . . @ @ @
+[H[2J[3JImage <16 x 16>
+@ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @
+@ @ @ @ @ @ . . . @ @ @ @ @ @ @
+@ @ @ @ @ . . . . . @ @ @ @ @ @
+@ @ @ @ @ . . . . . @ @ @ @ @ @
+@ . . . . . . . . . . . . @ @ @
+@ . . . . . . . . . . . . @ @ @
+@ . . . . . . . . . . . . @ @ @
+@ . . . . . . . . . . . . @ @ @
+@ . . . . . . . . . . . . . . @
+@ @ @ @ . . . . . . . . . . . .
+@ @ @ @ @ . . . . . . . . . . .
+@ @ @ @ . . . . . . . . . . . .
+@ . . . . . . . . . . . . . . @
+@ . . . . . . . . . . . . @ @ @
+@ . . . . . . @ . . . . . @ @ @
+@ . . . . . @ @ @ . . . . @ @ @
+[H[2J[3JImage <16 x 16>
+@ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @
+@ @ @ @ @ @ @ @ . @ @ @ @ @ @ @
+@ @ @ . @ @ @ . . . @ @ @ @ @ @
+@ @ . . . . . . . . . @ . @ . @
+@ @ . . . . . . . . . . . . . .
+@ @ . . . . . . . . . . . . . .
+@ @ . . . . . . . . . . . . . .
+@ @ . . . . . . . . . . . . . @
+@ . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . .
+@ . . . . . . . . . . . . . . .
+@ @ . . . . . . . . . . . . . .
+@ @ @ . . @ @ . . . . . . @ . .
+@ @ @ @ @ @ @ @ . . . . @ @ @ .
+@ @ @ @ @ @ @ . . . . . @ @ @ @
+@ @ @ @ @ @ . . . . . . . @ @ @
+[H[2J[3JImage <16 x 16>
+@ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @
+@ @ @ @ @ @ @ @ @ . . . @ @ @ @
+@ @ @ @ @ @ @ @ . . . . . @ @ @
+@ @ @ @ @ @ @ @ . . . . . @ @ @
+@ @ @ @ . . . . . . . . . . . .
+@ @ @ @ . . . . . . . . . . . .
+@ @ @ @ . . . . . . . . . . . .
+@ @ . . . . . . . . . . . . . .
+@ . . . . . . . . . . . . . . @
+@ . . . . . . . . . . . . . @ @
+@ @ . . . . . . . . . . . . . @
+@ @ @ . . . . . . . . . . . . .
+@ @ @ @ . . . . . . @ . . . . .
+@ @ @ @ . . . . @ @ @ @ . . . .
+@ @ @ @ . . . . @ @ @ . . . . .
+@ @ @ @ @ . . . @ @ @ . . . . .
+[H[2J[3JImage <16 x 16>
+@ @ @ @ @ @ @ @ @ . . . . @ @ @
+@ @ @ @ . . . @ . . . . . . @ @
+@ @ @ . . . . . . . . . . @ @ @
+@ @ @ @ . . . . . . . . @ @ @ @
+@ @ @ . . . . . . . . . . @ @ .
+@ @ @ @ . . . . . . . . . . . .
+@ @ @ . . . . . . . . . . . . .
+@ @ . . . . . . . . . . . . . .
+@ . . . . . . . . . . . . . . .
+@ @ . . . . . . . . . . . @ . .
+@ @ @ . . . . . . . . . @ @ @ .
+@ @ @ . . . . . . . . . @ @ @ @
+@ @ @ . . . . . . . . . @ @ @ @
+@ @ . . . . . . . . . . . @ @ @
+@ @ @ . . . . . . . . . @ @ @ @
+@ @ @ @ @ @ @ @ . . . @ @ @ @ @
+[H[2J[3JImage <16 x 16>
+@ @ @ @ . . . . @ @ @ . . . . .
+@ @ @ @ . . . . @ @ @ . . . . .
+@ @ @ @ . . . . . @ . . . . . .
+@ @ @ @ . . . . . . . . . . . .
+@ @ . . . . . . . . . . . . . .
+@ . . . . . . . . . . . . . . .
+@ . . . . . . . . . . . . @ @ @
+@ . . . . . . . . . . . @ @ @ @
+@ @ . . . . . . . . . . . @ @ @
+@ @ @ @ . . . . . . . . . . . .
+@ @ @ @ . . . . . . . . . . . .
+@ @ @ @ . . . . . . . . . . . @
+@ @ @ @ . . . . . . . . . . . @
+@ @ @ @ @ @ @ . . . . @ @ @ @ @
+@ @ @ @ @ @ . . . . . @ @ @ @ @
+@ @ @ @ @ @ @ . . . @ @ @ @ @ @
+[H[2J[3JImage <16 x 16>
+@ @ @ @ . . . . . . @ @ @ @ @ @
+@ @ @ @ . . . . . . . @ @ @ @ @
+@ @ @ @ @ . . . . . @ @ @ @ @ @
+@ . @ @ @ . . . . @ @ @ @ @ @ @
+. . . @ . . . . . . @ @ @ . @ @
+. . . . . . . . . . . @ . . . @
+. . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . .
+@ . . . . . . . . . . . . . . .
+@ @ . . . . . . . . . . . . . @
+@ . . . . . . . . . . . . . . @
+@ . . . . . . . . . . . . . . @
+@ . . . . . . . . . . . . . . @
+@ @ . @ . @ . . . . . . . . . @
+@ @ @ @ @ @ @ . . . @ @ @ . @ @
+@ @ @ @ @ @ @ @ . @ @ @ @ @ @ @
+There are currently 8 frames in your sequence
+Please select what do you want to do:
+  (1) Insert frame
+  (2) Move frame
+  (3) Remove frame
+  (4) Edit frame
+  (5) Play sequence
+ (10) Return
+Your selection?
+'Return' selected.

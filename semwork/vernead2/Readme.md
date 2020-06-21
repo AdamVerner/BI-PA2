@@ -1,1 +1,0 @@
-zadani.txt

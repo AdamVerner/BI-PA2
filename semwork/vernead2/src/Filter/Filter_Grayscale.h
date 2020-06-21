@@ -6,6 +6,7 @@
 
 #include "Filter.h"
 
+/** Set each pixel to equivalent grayscale value */
 class Filter_Grayscale: public Filter {
 public:
     Filter_Grayscale() = default; // : Filter() {}

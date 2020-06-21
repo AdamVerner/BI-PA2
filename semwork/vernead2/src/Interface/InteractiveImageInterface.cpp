@@ -76,21 +76,24 @@ void InteractiveImageInterface::PluginImage( ) {
 
 void InteractiveImageInterface::EditImage( ) {
     bool stop = false;
-    Selector s2;
-    s2.Add( 1, "Display", [&]{ out << *img; } );
+    Selector s;
+    s.Add( 1, "Display", [&]{ out << *img; } );
     // TODO Image info
-    s2.Add( 2, "Filters", [&]{ FilteringImage( ); } );
-    s2.Add( 3, "Plugins", [&]{ PluginImage( ); } );
-    s2.Add( 4, "Set Pixel", [&]{ SetPixelPrompt( ); } );
+    s.Add( 2, "Filters", [&]{ FilteringImage( ); } );
+    s.Add( 3, "Plugins", [&]{ PluginImage( ); } );
+    s.Add( 4, "Set Pixel", [&]{ SetPixelPrompt( ); } );
 
-    s2.Add( 5, "Save", [&]{ img->save( ); } );
-    s2.Add( 6, "Save As", [&]{ PromptImageSaveAs( ); } );
+    s.Add( 5, "Save", [&]{ img->save( ); } );
+    s.Add( 6, "Save As", [&]{ PromptImageSaveAs( ); } );
 
-    s2.Add( 10, "Return", [&]{ stop = true; } );
+    s.Add( 6, "Load LUT", [&]{ LoadLookupTable( ); } );
+
+
+    s.Add( 10, "Return", [&]{ stop = true; } );
 
 
     while( !stop ) {
-        s2.promptCustom( "What do you want to do?" );
+        s.promptCustom( "What do you want to do?" );
     }
 }
 
@@ -146,4 +149,13 @@ int InteractiveImageInterface::PromptIntegerValue( const std::string & name, int
     while( !promptInteger( value ) || value < min || value > max )
         std::cout << "Invalid value." << std::endl;
     return value;
+}
+
+void InteractiveImageInterface::LoadLookupTable( ) {
+    try {
+        img->mLUT = LoadLut( promptImageLocation( ));
+    }
+    catch (const FileException & e){
+        out << e;
+    }
 }

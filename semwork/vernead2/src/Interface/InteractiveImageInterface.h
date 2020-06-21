@@ -61,4 +61,5 @@ private:
     /** Prompt user for integer and range verify it. */
     int PromptIntegerValue( const std::string & name, int min = INT_MIN, int max = INT_MAX);
 
+    void LoadLookupTable( );
 };

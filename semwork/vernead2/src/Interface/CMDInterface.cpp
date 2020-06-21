@@ -3,10 +3,10 @@
 //
 
 #include <getopt.h>
+#include <algorithm>
 
 #include "../Exceptions.h"
 #include "../Constants.h"
-
 #include "../Plugins/Plugin_Resize.h"
 #include "../Plugins/Plugin_Rotate.h"
 #include "../Filter/Filter_Edge.h"
@@ -36,6 +36,7 @@ int CMDInterface::ParseArguments( int argc, char ** argv ) {
             {"filter", required_argument, nullptr,  'f' },
             {"rotate", required_argument, nullptr,  'r' },
             {"resize", required_argument, nullptr,  's' },
+            {"ascii", required_argument, nullptr,  'a' },
             {"info", no_argument, nullptr,  'i' },
             {"help", no_argument, nullptr,  'h' },
     };
@@ -55,6 +56,10 @@ int CMDInterface::ParseArguments( int argc, char ** argv ) {
                     break;
                 case 'r':
                     parseRotation( optarg );
+                    break;
+                case 'a':
+                    use_nonDefaultLut = true;
+                    nonDefaultLut = LoadLut(optarg);
                     break;
                 case 's':
                     parseResize( optarg );
@@ -102,13 +107,11 @@ int CMDInterface::run( ) {
 
     if(interactive) {
 
-        out << "Welcome to '" << program_invocation_short_name << "'" << std::endl;
-        out << "This is free software: you are free to change and redistribute it." << std::endl;
-        out << "There is NO WARRANTY, to the extent permitted by law." << std::endl;
-        out << std::endl;
+        out << "Welcome to '" << program_invocation_short_name << "'\n";
+        out << "This is free software: you are free to change and redistribute it.\n";
+        out << "There is NO WARRANTY, to the extent permitted by law.\n\n\n";
 
-        out << "You've choose an interactive mode, you will be assisted in Editing images or creating sequences of images" << std::endl;
-        out << std::endl;
+        out << "You've choose an interactive mode, you will be assisted in Editing images or creating sequences of images\n" << std::endl;
 
         Selector s;
         s.Add(1, "Edit Image", [&]{ InteractiveImageInterface().run(); });
@@ -120,6 +123,9 @@ int CMDInterface::run( ) {
 
     try {
         img = LoadImage( filenameIn );
+
+        if(use_nonDefaultLut)
+            img->mLUT = nonDefaultLut;
 
         if( print_image_info ) {
             printImageInfo( );
@@ -169,7 +175,7 @@ void CMDInterface::printImageInfo( ) {
 
     out << "Histogram:" << std::endl;
     for(const auto & a: img->getHistogram(10)) {
-        size_t starts = (size_t)std::log2(a + 1);
+        auto starts = (size_t)std::log2(a + 1);
         out << "> " << std::string(starts, '-') << std::endl;
     }
 }
@@ -210,35 +216,34 @@ void CMDInterface::parseFilter( std::string specification ) {
     else if(specification == "inverse") filters.push_back(std::make_unique<Filter_Inverse>());
     else if(specification == "lowpass") filters.push_back(std::make_unique<Filter_LowPass>());
     else if(specification == "sharpen") filters.push_back(std::make_unique<Filter_Sharpen>());
-
-    throw InvalidParam("Invalid Filter name " + specification);
+    else throw InvalidParam("Invalid Filter name " + specification);
 }
 
 void CMDInterface::printHelp( ) {
-    out << "Usage: " << program_invocation_short_name<< " [OPTIONS] INPUT OUTPUT" << std::endl;
-    out << "Example: -filter=grayscale -scale=150:100 -rotate=75:50:90 examples/kitty.jpg tmp/newImage.png" << std::endl;
-    out << "" << std::endl;
-    out << "OPTIONS:" << std::endl;
-//    out << "  -a, --ascii=FILE       ASCII File encoding specification (.ascii image can be used)" << std::endl;
-    out << "  -I, --Interactive      Launch interactive mode. All other switches are ignored" << std::endl;
-    out << "  -f, --filter=NAME     Specify filter for image. see \"Format\" chapter for more" << std::endl;
-    out << "  -r, --rotate=DEG:x:y  Rotate Image by specified angle in degrees around origin X:Y" << std::endl;
-    out << "  -s, --resize=x:y      Resize the image to specified size" << std::endl;
-    out << "  -i, --info            Prints all known info about image" << std::endl;
-    out << "  -h, --help            Prints this help and exit" << std::endl;
-    out << "" << std::endl;
-    out << "" << std::endl;
-    out << "Filters do not have any parameters, they are specified by their name" << std::endl;
-    out << "Some of the available filters are: " << std::endl;
-    out << "  - inverse" << std::endl;
-    out << "  - sharpen" << std::endl;
-    out << "  - grayscale" << std::endl;
-    out << "  - lowpass" << std::endl;
-    out << "  - highpass" << std::endl;
-    out << "" << std::endl;
-    out << "When OUTPUT is '-', image is printed to stdout." << std::endl;
-    out << "" << std::endl;
-    out << "Report bugs to: bugs@averner.cz" << std::endl;
+    out << "Usage: " << program_invocation_short_name<< " [OPTIONS] INPUT OUTPUT\n";
+    out << "Example: -filter=grayscale -scale=150:100 -rotate=75:50:90 examples/kitty.jpg tmp/newImage.png\n";
+    out << "\n";
+    out << "OPTIONS:\n";
+    out << "  -I, --Interactive      Launch interactive mode. All other switches are ignored\n";
+    out << "  -f, --filter=NAME     Specify filter for image. see \"Format\" chapter for more\n";
+    out << "  -r, --rotate=DEG:x:y  Rotate Image by specified angle in degrees around origin X:Y\n";
+    out << "  -s, --resize=x:y      Resize the image to specified size\n";
+    out << "  -a, --ascii=FILE      Load ascii Lookup table from specified file\n";
+    out << "  -i, --info            Prints all known info about image\n";
+    out << "  -h, --help            Prints this help and exit\n";
+    out << "\n";
+    out << "\n";
+    out << "Filters do not have any parameters, they are specified by their name\n";
+    out << "Some of the available filters are: \n";
+    out << "  - inverse\n";
+    out << "  - sharpen\n";
+    out << "  - grayscale\n";
+    out << "  - lowpass\n";
+    out << "  - highpass\n";
+    out << "\n";
+    out << "When OUTPUT is '-', image is printed to stdout.\n";
+    out << "\n";
+    out << "Report bugs to: bugs@averner.cz\n";
     out << "averner2 home page: <https://github.com/AdamVerner/CVUT-PA2/tree/master/semwork/vernead2/>" << std::endl;
 }
 

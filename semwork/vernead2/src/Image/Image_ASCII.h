@@ -8,6 +8,8 @@
 #include "../Exceptions.h"
 #include "Image.h"
 
+/** Image ASCII.
+ * Internal image format to store human-readbale images */
 class Image_ASCII: public Image{
 public:
 

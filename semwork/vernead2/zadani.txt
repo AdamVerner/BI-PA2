@@ -52,15 +52,17 @@ Usage: vernead2 [OPTIONS] INPUT OUTPUT
 Example: -filter=grayscale -scale=150:100 -rotate=75:50:90 examples/kitty.jpg tmp/newImage.png
 
 OPTIONS:
-  -I, --Interactive      Launch interactive mode. All other switches are ignored
+  -I, --Interactive     Launch interactive mode. All other switches are ignored
   -f, --filter=NAME     Specify filter for image. see "Format" chapter for more
   -r, --rotate=DEG:x:y  Rotate Image by specified angle in degrees around origin X:Y
   -s, --resize=x:y      Resize the image to specified size
+  -a, --ascii=FILE      Load ascii Lookup table from specified file
   -i, --info            Prints all known info about image
+  -h, --help            Prints this help and exit
 
 
 Filters do not have any parameters, they are specified by their name
-Some of the available filters are:
+Some of the available filters are: 
   - inverse
   - sharpen
   - grayscale
@@ -71,98 +73,49 @@ When OUTPUT is '-', image is printed to stdout.
 
 Report bugs to: bugs@averner.cz
 averner2 home page: <https://github.com/AdamVerner/CVUT-PA2/tree/master/semwork/vernead2/>
-
 ```
 
-### Interface
-Program bude operovat ve dvou módech. Interaktivním a CMD móodu. 
 
 #### Interaktivní mód
 Interaktivní mód postupně provede uživatele jednotlivými operacemi editace obrázků/sekvencí.
-Bude možná podpora rúzných formátů terminálu (znakový terminál, ANSI, ...)
-
 Tento mód také umožňuje přehrávání a editaci animací(sekvencí obrázků).
 
-#### CMD mód
-Jednoduchý mód, umožňující snadné operace nad většim množstvím dat. 
-Typicky při práci s větším množstvím obrázků, například v shell skriptu.
-
-Ovládání bude pomocí unixových switchů.
-
-```
-Usage: ./vernead2 IMAGES... [OPTIONS]... [-o|-n] OUTPUT...
-Example: img1.png img2.png -fsharpen:1 -frotate:90 -o new_img1.jpg new_img2.jpg
-  
-OPTIONS:
-  -a, --ascii=FILE       ASCII File encoding specification (.ascii image can be used)
-  -f, --filter=FILTER    Specify filter for image. see "Format" chapter for more   
-  -i, --image=IMAGE      Specify Image source file
-  -I, --Interactive      Launch interactive mode. All other switches are ignored
-  -n, --inplace          Don't save to new file, modify the old one
-  -o, --output           Placeholder option
-  -p, --print            Ignore outputs and print to STDOUT    
-  -s, --scale=SCALE      Scale images to certain size.             
-  -v, --verbose          Increase verbosity level
-
-
-Filter specification
-  Filters are specified by single string split by colon.
-    FILTER_NAME[:PARAM1[:PARAM2[:PARAM3... ]]]
-  More examples can be found in documentation. here are some examples.
-
-  -f lowpass:average:5:2
-  -f higpass:average:3:1
-  -f sharpen:1
-  -f rotate:90
-
-When OTPUT is '-', output is printed to stdout. In combination with --ansi
-output is displayed in terminal using ANSI control sequences.
-
-Report bugs to: bugs@averner.cz
-averner2 home page: <https://github.com/AdamVerner/CVUT-PA2/tree/master/semwork/vernead2/>
-```
-
-CMD mód umožní zadat všechny opžadované operace pomocí *nixových switchů, umožňující jednoduché operace nad větším množstvím dat.
-například:
-```
-$ ./vernead2 -i test.png -s480x600 -o new.jpeg
-```
 
 ### .ascii inter image format
 Aplikace může také vytvářet vlastní soubory ve formátu `.ascii` který je human-readable. 
 Jeho specifikace se může mezi verzemi měnit.
 
-Aktuální verze spočívá v souboru, jehož první řádek je lookup tabulka použitého enkódování, 
-zbytek je samotný ascii obrázek. 
+Aktuálně spočívá ze tří částí
+ - Hlavička
+ - Lookup
+ - Data
+ 
+Hlavička je sekvence "ASCII\n" označující soubor.
 
-Například: [progtest.ascii](examples/progtest.ascii).
+Lookup je vyhledávací tabulka pro převod do a ze surových dat. Je zakončená '\n'
+
+Data je samotný obrázek.
+Všechny řádky musí být stejně dlouhé(obdelník).
+Například: [progtest.ascii](examples/Images/progtest.ascii).
+
+#### Lookup table formát
+Pří použítí může být také specifikován speciální soubor s ASCII lookup tabulkou použitou k zobrazování. 
 
 
-## Polymorphism
+## Polymorfismus
 Polymorfismus je využit v několika případech,
 
 ### Image
-Hlavní třída Image obsahuje reprezentaci dat, metody na aplikaci filtrů, scalerů.
-Její potomci CImage_PNG, CImage_JPEG a další implementují načítání dat a jejich ukládání.
+Hlavní třída Image obsahuje reprezentaci dat, metody na aplikaci filtrů, pluginů a další generické operace nad daty.
+Její potomci CImage_PNG, CImage_JPEG a další implementují načítání dat a jejich zpracování, převod do univerzálního formátu a ukládání.
 
 ### CFilter
 Hlavní třída bude obstarávat přístup k datům, její potomci pak budou implementovat jednotilivou funkcionalitu, 
 například: Inverze, kontrast, ...
 
-### CScaler
-Může být použito víc algoritmů pro scalování obrázků. Například Bilineární transformace, HQX, ...
+### Plugin
+Pluginy jsou určeny ke generickým editacím, které nejsou filtrování, napříkald zvětšování, zmenšování, otočení.
 
-
-# Current state
-CLI implementation is postponed until all the internals are sorted out, so i don't have to redo-it.
-Currently it can be used as simple programming interface to access PNGs and JPEGs.
-Image can hold one channel (grayscale) of data, adding more channels would not require much work.
-There is basic CScale implemented. to simply downscale and upscale images.
-
-
-# TODOList
- - walkthrough script
- - CMD interface (simplified) one picture at a time
 
 # Zdroje
 
@@ -171,3 +124,5 @@ There is basic CScale implemented. to simply downscale and upscale images.
  - Rotation logic from Linear algebra textbook https://kam.fit.cvut.cz/deploy/bi-lin//lin-text.pdf
  - Billinear Interpolation was sourced from wiki https://cs.wikipedia.org/wiki/Line%C3%A1rn%C3%AD_interpolace
  - Kitty pictures sourced from pinterest.com https://www.pinterest.com/pin/12314598952539111/
+ - progtest logo from progtest.fit.cvut.cz
+ - Other animal pictures are my own work 

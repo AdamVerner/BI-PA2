@@ -8,9 +8,7 @@
 #include <cstdint>
 #include <memory>
 
-// #define DEFAULT_LUT R"(############%%%%8888&&&&WWWWMMMM####****ooooaaaahhhhkkkkddddppppqqqqwwwwmmmmZZZZ0000QQQQLLLLJJJJUUUUYYYYXXXXzzzzccccvvvvuuuuxxx))))1111{{}}[[]]????<<<<>>>>iiii!!!!++++;;;;::::~~~~~~~~--------,,,,,,,,""""""""^^^^^^^^''''''''````````........______           )"
-#define DEFAULT_LUT "#@WLIoji+;:'\"_. "
-
+/** Pixel memory representation. */
 struct pixel_t{
     uint8_t r; /**< Red channel */
     uint8_t g; /**< Green channel */
@@ -58,7 +56,7 @@ struct pixel_t{
 
     bool operator==(const pixel_t& rhs){ return r == rhs.r && g == rhs.g && b == rhs.b && a == rhs.a; }
 
-    //uint8_t getGray() const { return (this->r * 0.33 + this->g * 0.33 + this->b * 0.33) * a / 255; }
+    /** Calculate grayscale value*/
     uint8_t getGray() const { return (this->r * 0.3 + this->g * 0.59 + this->b * 0.11) * a / 255; }
 
     void merge(const pixel_t & other){

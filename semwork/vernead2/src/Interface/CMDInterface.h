@@ -36,11 +36,12 @@ private:
     void parseFilter( std::string specification);
     void printHelp();
     static bool ends_with( std::string const & value, std::string const & ending );
-    static ImageType ImageTypeFromFilename( const std::string & filename );
+    ImageType ImageTypeFromFilename( const std::string & filename );
 
     bool print_image_info = false;
     bool interactive = false;
     bool print_help = false;
+    bool use_nonDefaultLut = false;
 
     std::vector<std::unique_ptr<Filter>> filters;
     std::vector<std::unique_ptr<Plugin>> plugins;
@@ -48,5 +49,6 @@ private:
     ImagePtr img;
     std::string filenameIn;
     std::string filenameOut;
+    std::string nonDefaultLut;
 
 };

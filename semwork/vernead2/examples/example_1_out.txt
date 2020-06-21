@@ -1,0 +1,74 @@
+Welcome to 'vernead2'
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+You've choose an interactive mode, you will be assisted in Editing images or creating sequences of images
+
+Please select what do you want to do:
+  (1) Edit Image
+  (3) Create Image sequence
+ (10) Exit
+Your selection?
+'Edit Image' selected.
+Do you want to create new Image or open an existing one?  (1) NEW
+  (4) Existing
+Your selection?
+'Existing' selected.
+Location: 
+What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Filters' selected.
+Which Filter do you want to use? 
+  (1) Edge
+  (2) Grayscale
+  (3) LowPass
+  (4) HighPass
+  (5) Inverse
+  (6) Sharpen
+Your selection?
+'Grayscale' selected.
+What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Save As' selected.
+Entry location to save the image: Select new Image format:   (1) JPG
+  (2) PNG
+  (3) ASCII
+Your selection?
+'JPG' selected.
+Image successfully saved to 'examples/new.jpg'
+What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Save As' selected.
+Entry location to save the image: Select new Image format:   (1) JPG
+  (2) PNG
+  (3) ASCII
+Your selection?
+'PNG' selected.
+Image successfully saved to 'examples/new.png'
+What do you want to do?  (1) Display
+  (2) Filters
+  (3) Plugins
+  (4) Set Pixel
+  (5) Save
+  (6) Save As
+ (10) Return
+Your selection?
+'Return' selected.

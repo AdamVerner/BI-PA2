@@ -13,6 +13,10 @@
 #include "../Exceptions.h"
 #include "Image.h"
 
+/**
+ * PNG image.
+ * uses libpng to load images from disc.
+ * */
 class Image_PNG: public Image{
 public:
 
@@ -31,6 +35,7 @@ private:
     png_infop info_ptr = nullptr;
 
 
+    /** Parse data from array into this data structures */
     void parseRawData( const std::unique_ptr<png_byte[]> & rawData );
 
     /**

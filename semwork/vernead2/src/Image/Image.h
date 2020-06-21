@@ -11,6 +11,7 @@
 #include <memory>
 #include <iostream>
 
+#include "../Constants.h"
 #include "../dataTypes.h"
 #include "../Filter/Filter.h"
 #include "../Plugins/Plugin.h"
@@ -91,10 +92,11 @@ public:
     size_t mWidth = 0;   /**< image width */
     size_t mHeight = 0;  /**< image height */
 
+    std::string mLUT = DEFAULT_LUT;
 protected:
 
     imgData_t mData {}; /**< images RAW data */
-    std::string mLUT = DEFAULT_LUT; /**< Lookup table for pixel to ascii translation */
+    /**< Lookup table for pixel to ascii translation */
 };
 
 typedef std::shared_ptr<Image> ImagePtr;

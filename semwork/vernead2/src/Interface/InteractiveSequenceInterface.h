@@ -9,6 +9,7 @@
 
 #include "InteractiveImageInterface.h"
 
+/** Prompt the user about image sequence creation and editing */
 class InteractiveSequenceInterface{
 public:
     InteractiveSequenceInterface(): out(std::cout){};

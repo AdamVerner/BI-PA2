@@ -16,7 +16,10 @@
 class Plugin_Rotate: public Plugin{
 public:
 
+
     explicit Plugin_Rotate( ssize_t x, ssize_t y, double direction): Plugin( "Rotation"), mXCenter( x), mYCenter( y), mDirection( direction) { }
+
+    /** Rotate the image about specified coordinate */
     void processImage( Image & img ) const override;
 
 protected:

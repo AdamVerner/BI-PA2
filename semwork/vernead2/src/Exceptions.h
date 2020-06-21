@@ -23,6 +23,7 @@ private:
     virtual void print(std::ostream & os) const{ os << "Failed: " << this->what() << std::endl; }
 };
 
+/** There is something wrong with the specified file or it doesn't exist */
 class FileException : public BaseException{
 public:
     explicit FileException(const std::string & what): BaseException(what) { }
@@ -31,6 +32,7 @@ private:
     void print( std::ostream & os) const override { os << "Reading File failed: " << this->what() << std::endl; }
 };
 
+/** User entered something horrible */
 class InvalidInputException : public BaseException{
 public:
     explicit InvalidInputException(const std::string & what): BaseException(what) { }
@@ -39,6 +41,7 @@ private:
     void print( std::ostream & os) const override { os << "Invalid Input: " << this->what() << std::endl; }
 };
 
+/** User passed some weird param wia CMD */
 class InvalidParam: public InvalidInputException{
 public:
     explicit InvalidParam(const std::string & what): InvalidInputException(what) { }
